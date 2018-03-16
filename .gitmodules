@@ -1,0 +1,9 @@
+[submodule "3rdParty/spdlog"]
+	path = 3rdParty/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "3rdParty/gtest"]
+	path = 3rdParty/gtest
+	url = https://github.com/google/googletest.git
+[submodule "3rdParty/curlpp"]
+	path = 3rdParty/curlpp
+	url = https://github.com/jpbarrette/curlpp.git
