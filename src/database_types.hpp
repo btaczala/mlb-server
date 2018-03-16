@@ -7,12 +7,21 @@
 namespace mlb {
 namespace data {
 
-struct Player {
+struct PlayerShortInfo {
     std::string firstname;
     std::string lastname;
     std::string id;
 };
-using Players = std::vector<Player>;
+
+struct ArticleHeader {
+    std::string title;
+    std::string postedDate;
+    std::uint32_t numberOfComments;
+    std::string author;
+};
+
+using Players = std::vector<PlayerShortInfo>;
+using ArticleHeaders = std::vector<ArticleHeader>;
 }  // namespace data
 }  // namespace mlb
 

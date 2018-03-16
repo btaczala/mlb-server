@@ -1,5 +1,6 @@
 #include "server.hpp"
 #include "log.h"
+#include "responseconverter.hpp"
 
 #include <chrono>
 #include <map>
@@ -24,9 +25,9 @@ struct ServerImpl {
 
     std::mutex m;
     std::condition_variable cv;
-    std::map<web::http::uri,
-             std::function<web::http::status_code(web::http::http_request)>>
+    std::map<web::http::uri, std::function<void(web::http::http_request)>>
         requestsMap;
+    data::ResponseConverter converter;
 };
 
 Server::Server()
@@ -51,20 +52,19 @@ Server::Server()
             request.reply(web::http::status_codes::NotAcceptable);
         }
 
-        const auto retCode = it->second(request);
-        request.reply(retCode);
+        it->second(request);
     };
 
     d->_listener.support(web::http::methods::GET, handle_get);
 
-    d->requestsMap["player"] = [this](web::http::http_request) {
+    d->requestsMap["player"] = [this](web::http::http_request req) {
         mlb_server_debug("Get player info");
-
-        auto resp = database.allPlayers();
-        return web::http::status_codes::OK;
+        const auto response = d->converter.serialize(database.allPlayers());
+        mlb_server_info("Sending response {}", response);
+        req.reply(web::http::status_codes::OK, response);
     };
-    d->requestsMap["ping"] = [](web::http::http_request) {
-        return web::http::status_codes::OK;
+    d->requestsMap["ping"] = [](web::http::http_request req) {
+        req.reply(web::http::status_codes::OK);
     };
 }
 

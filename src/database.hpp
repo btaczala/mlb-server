@@ -14,13 +14,16 @@ struct Database {
 
     template <typename DatabaseImpl>
     void setImpl(DatabaseImpl&& db) {
-        _getAllPlayers = [&db]() { return db.getAllPlayers(); };
+        _getAllPlayers = [&db]() { return db.allPlayers(); };
+        _articleHeaders = [&db]() { return db.articleHeaders(); };
     }
 
     Players allPlayers() const;
+    ArticleHeaders articleHeaders() const { return _articleHeaders(); }
 
    private:
-    std::function<std::vector<Player>()> _getAllPlayers;
+    std::function<std::vector<PlayerShortInfo>()> _getAllPlayers;
+    std::function<ArticleHeaders()> _articleHeaders;
 };
 }  // namespace data
 }  // namespace mlb

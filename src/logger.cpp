@@ -17,6 +17,6 @@ void setupLogger() {
     if (env) {
         kDefaultLogger->set_level(spdlog::level::from_str(std::string{env}));
     } else {
-        kDefaultLogger->set_level(spdlog::level::info);
+        kDefaultLogger->set_level(spdlog::level::off);
     }
 }

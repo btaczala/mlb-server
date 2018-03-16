@@ -3,9 +3,12 @@ set(SPDLOG_BUILD_TESTING CACHE FORCE OFF)
 set(SPDLOG_BUILD_EXAMPLES CACHE FORCE OFF)
 add_subdirectory(spdlog)
 
-set(BUILD_GTEST CACHE FORCE ON)
-set(BUILD_GMOCK CACHE FORCE OFF)
-add_subdirectory(gtest)
+if(ENABLE_TESTING)
+
+    set(BUILD_GTEST CACHE FORCE ON)
+    set(BUILD_GMOCK CACHE FORCE ON)
+    add_subdirectory(gtest)
+endif()
 
 add_subdirectory(curlpp)
 

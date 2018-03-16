@@ -6,9 +6,9 @@
 namespace mlb {
 namespace data {
 struct DatabaseImpl
-
 {
-    Players getAllPlayers() const { return Players{}; }
+    Players allPlayers() const { return Players{}; }
+    ArticleHeaders articleHeaders() const { return ArticleHeaders {}; }
 };
 }  // namespace data
 }  // namespace mlb

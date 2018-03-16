@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "database.hpp"
 #include "server.hpp"
 
