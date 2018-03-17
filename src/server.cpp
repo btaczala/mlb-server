@@ -1,6 +1,6 @@
 #include "server.hpp"
 #include "log.h"
-#include "responseconverter.hpp"
+#include "serverimpl.hpp"
 
 #include <chrono>
 #include <map>
@@ -18,18 +18,14 @@ web::http::uri buildUri(const std::string& address, std::uint16_t port) {
 }  // namespace
 
 namespace mlb {
+
+namespace restParsers {
+extern void parseArticleRequest(web::http::http_request request,
+                                const mlb::data::Database& db,
+                                mlb::data::ResponseConverter& converer);
+}  // namespace restParsers
+
 namespace server {
-struct ServerImpl {
-    ServerImpl(const web::http::uri& address) : _listener(address) {}
-    web::http::experimental::listener::http_listener _listener;
-
-    std::mutex m;
-    std::condition_variable cv;
-    std::map<web::http::uri, std::function<void(web::http::http_request)>>
-        requestsMap;
-    data::ResponseConverter converter;
-};
-
 Server::Server()
     : d(std::make_unique<ServerImpl>((buildUri("localhost", 9080)))) {
     auto handle_get = [this](web::http::http_request request) {
@@ -50,6 +46,8 @@ Server::Server()
             mlb_server_warn("Unable to find uri {}",
                             request.request_uri().to_string());
             request.reply(web::http::status_codes::NotAcceptable);
+
+            return;
         }
 
         it->second(request);
@@ -66,7 +64,11 @@ Server::Server()
     d->requestsMap["ping"] = [](web::http::http_request req) {
         req.reply(web::http::status_codes::OK);
     };
-}
+
+    d->requestsMap["article"] = [this](web::http::http_request request) {
+        restParsers::parseArticleRequest(request, database, d->converter);
+    };
+};
 
 Server::~Server() {}
 
