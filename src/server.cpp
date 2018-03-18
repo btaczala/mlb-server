@@ -8,22 +8,25 @@
 
 namespace {
 
-web::http::uri buildUri(const std::string& address, std::uint16_t port) {
+web::http::uri buildUri(const std::string &address, std::uint16_t port) {
     auto builder = web::http::uri_builder{};
     builder.set_scheme("http").set_host(address).set_port(port).set_path("/");
 
     mlb_server_trace("Uri = {}", builder.to_string());
     return builder.to_uri();
 }
-}  // namespace
+} // namespace
 
 namespace mlb {
 
 namespace restParsers {
 extern void parseArticleRequest(web::http::http_request request,
-                                const mlb::data::Database& db,
-                                mlb::data::ResponseConverter& converer);
-}  // namespace restParsers
+                                const mlb::data::Database &db,
+                                ResponseConverter &converer);
+extern void parseScheduleRequest(web::http::http_request request,
+                                 const mlb::data::Database &db,
+                                 ResponseConverter &converer);
+} // namespace restParsers
 
 namespace server {
 Server::Server()
@@ -46,7 +49,6 @@ Server::Server()
             mlb_server_warn("Unable to find uri {}",
                             request.request_uri().to_string());
             request.reply(web::http::status_codes::NotAcceptable);
-
             return;
         }
 
@@ -61,12 +63,17 @@ Server::Server()
         mlb_server_info("Sending response {}", response);
         req.reply(web::http::status_codes::OK, response);
     };
+
     d->requestsMap["ping"] = [](web::http::http_request req) {
         req.reply(web::http::status_codes::OK);
     };
 
     d->requestsMap["article"] = [this](web::http::http_request request) {
         restParsers::parseArticleRequest(request, database, d->converter);
+    };
+
+    d->requestsMap["schedule"] = [this](web::http::http_request request) {
+        restParsers::parseScheduleRequest(request, database, d->converter);
     };
 };
 
@@ -93,5 +100,5 @@ void Server::stop() {
     d->cv.notify_one();
 }
 
-}  // namespace server
-}  // namespace mlb
+} // namespace server
+} // namespace mlb

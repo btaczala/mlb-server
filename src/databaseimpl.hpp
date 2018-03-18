@@ -5,12 +5,17 @@
 
 namespace mlb {
 namespace data {
-struct DatabaseImpl
-{
+struct DatabaseImpl {
     Players allPlayers() const { return Players{}; }
-    ArticleHeaders articleHeaders() const { return ArticleHeaders {}; }
+    ArticleHeaders articleHeaders() const { return ArticleHeaders{}; }
+    std::optional<Article> article(std::uint32_t id) const { return Article{}; }
+    Schedule schedule(const std::string &) const { return Schedule{}; }
+    std::optional<Schedule> schedule(const std::string &,
+                                     std::uint16_t week) const {
+        return Schedule{};
+    }
 };
-}  // namespace data
-}  // namespace mlb
+} // namespace data
+} // namespace mlb
 
 #endif /* end of include guard: DATABASEIMPL_HPP_W6NHBHAO */

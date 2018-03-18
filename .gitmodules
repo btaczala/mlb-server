@@ -10,3 +10,6 @@
 [submodule "3rdParty/metastuff"]
 	path = 3rdParty/metastuff
 	url = https://github.com/eliasdaler/MetaStuff.git
+[submodule "3rdParty/json"]
+	path = 3rdParty/json
+	url = https://github.com/nlohmann/json.git

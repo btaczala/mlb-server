@@ -19,7 +19,7 @@ struct ServerImpl {
     std::condition_variable cv;
     std::map<web::http::uri, std::function<void(web::http::http_request)>>
         requestsMap;
-    data::ResponseConverter converter;
+    ResponseConverter converter;
 };
 }  // namespace server
 }  // namespace mlb

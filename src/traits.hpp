@@ -1,32 +1,17 @@
 #ifndef TRAITS_HPP_KWUKITQT
 #define TRAITS_HPP_KWUKITQT
 
-template<typename T, typename _ = void>
-struct is_container : std::false_type {};
+#include <vector>
 
-template<typename... Ts>
-struct is_container_helper {};
+template <class T>
+struct is_container {
+    constexpr static bool value = false;
+};
 
-template<typename T>
-struct is_container<
-        T,
-        std::conditional_t<
-            false,
-            is_container_helper<
-                typename T::value_type,
-                typename T::size_type,
-                typename T::allocator_type,
-                typename T::iterator,
-                typename T::const_iterator,
-                decltype(std::declval<T>().size()),
-                decltype(std::declval<T>().begin()),
-                decltype(std::declval<T>().end()),
-                decltype(std::declval<T>().cbegin()),
-                decltype(std::declval<T>().cend())
-                >,
-            void
-            >
-        > : public std::true_type {};
-
+template <>
+template <class T, class Alloc>
+struct is_container<std::vector<T, Alloc>> {
+    constexpr static bool value = true;
+};
 
 #endif /* end of include guard: TRAITS_HPP_KWUKITQT */

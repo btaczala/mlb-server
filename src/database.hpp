@@ -1,9 +1,9 @@
 #ifndef DATABASE_HPP_DL31MKFQ
 #define DATABASE_HPP_DL31MKFQ
 
-#include <vector>
-
 #include <functional>
+#include <optional>
+#include <vector>
 
 #include "database_types.hpp"
 
@@ -13,19 +13,43 @@ struct Database {
     Database() = default;
 
     template <typename DatabaseImpl>
-    void setImpl(DatabaseImpl&& db) {
+    void setImpl(DatabaseImpl &&db) {
         _getAllPlayers = [&db]() { return db.allPlayers(); };
         _articleHeaders = [&db]() { return db.articleHeaders(); };
+        _article = [&db](std::uint32_t id) { return db.article(id); };
+        _schedule = [&db](const std::string &league) {
+            return db.schedule(league);
+        };
+        _scheduleByWeek = [&db](const std::string &league, std::uint16_t week) {
+            return db.schedule(league, week);
+        };
     }
 
     Players allPlayers() const;
     ArticleHeaders articleHeaders() const { return _articleHeaders(); }
 
-   private:
-    std::function<std::vector<PlayerShortInfo>()> _getAllPlayers;
+    std::optional<Article> article(std::uint32_t id) const {
+        return _article(id);
+    }
+
+    Schedule schedule(const std::string &league) const {
+        return _schedule(league);
+    }
+
+    std::optional<Schedule> schedule(const std::string &league,
+                                     std::uint16_t week) const {
+        return _scheduleByWeek(league, week);
+    }
+
+  private:
+    std::function<Players()> _getAllPlayers;
     std::function<ArticleHeaders()> _articleHeaders;
+    std::function<std::optional<Article>(std::uint32_t)> _article;
+    std::function<Schedule(const std::string &)> _schedule;
+    std::function<std::optional<Schedule>(const std::string &, std::uint16_t)>
+        _scheduleByWeek;
 };
-}  // namespace data
-}  // namespace mlb
+} // namespace data
+} // namespace mlb
 
 #endif /* end of include guard: DATABASE_HPP_DL31MKFQ */

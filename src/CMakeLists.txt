@@ -6,15 +6,15 @@ add_library(mlb-core
     logger.cpp
     server.cpp
     database.cpp
-    responseconverter.cpp
-    articles.cpp
+    restparsers/articles.cpp
+    restparsers/schedule.cpp
 )
 
 target_include_directories(mlb-core 
   PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
-  PUBLIC 
     ${CMAKE_SOURCE_DIR}/3rdParty/metastuff/include
+    ${CMAKE_SOURCE_DIR}/3rdParty/json/include
 )
 target_link_libraries(mlb-core
   PRIVATE
