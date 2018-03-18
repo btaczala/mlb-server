@@ -1,6 +1,3 @@
-
-#include <iostream>
-
 #include <cpprest/http_msg.h>
 
 #include "database.hpp"

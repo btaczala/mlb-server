@@ -8,7 +8,6 @@ struct is_container {
     constexpr static bool value = false;
 };
 
-template <>
 template <class T, class Alloc>
 struct is_container<std::vector<T, Alloc>> {
     constexpr static bool value = true;

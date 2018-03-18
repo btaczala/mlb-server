@@ -1,5 +1,6 @@
 #include "server.hpp"
 #include "log.h"
+#include "restparsers/parsers.hpp"
 #include "serverimpl.hpp"
 
 #include <chrono>
@@ -18,16 +19,6 @@ web::http::uri buildUri(const std::string &address, std::uint16_t port) {
 } // namespace
 
 namespace mlb {
-
-namespace restParsers {
-extern void parseArticleRequest(web::http::http_request request,
-                                const mlb::data::Database &db,
-                                ResponseConverter &converer);
-extern void parseScheduleRequest(web::http::http_request request,
-                                 const mlb::data::Database &db,
-                                 ResponseConverter &converer);
-} // namespace restParsers
-
 namespace server {
 Server::Server()
     : d(std::make_unique<ServerImpl>((buildUri("localhost", 9080)))) {
@@ -74,6 +65,10 @@ Server::Server()
 
     d->requestsMap["schedule"] = [this](web::http::http_request request) {
         restParsers::parseScheduleRequest(request, database, d->converter);
+    };
+
+    d->requestsMap["gamereport"] = [this](web::http::http_request request) {
+        restParsers::parseGameReporstRequest(request, database, d->converter);
     };
 };
 

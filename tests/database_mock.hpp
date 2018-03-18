@@ -14,6 +14,7 @@ struct DatabaseMock {
     MOCK_CONST_METHOD2(schedule,
                        std::optional<mlb::data::Schedule>(const std::string &,
                                                           std::uint16_t));
+    MOCK_CONST_METHOD1(gameReport, std::optional<mlb::data::GameReport>(id_t));
 };
 
 #endif /* end of include guard: DATABASE_MOCK_HPP_KEBRJD9L */

@@ -23,6 +23,8 @@ struct Database {
         _scheduleByWeek = [&db](const std::string &league, std::uint16_t week) {
             return db.schedule(league, week);
         };
+
+        _gameReport = [&db](id_t id) { return db.gameReport(id); };
     }
 
     Players allPlayers() const;
@@ -41,6 +43,10 @@ struct Database {
         return _scheduleByWeek(league, week);
     }
 
+    std::optional<GameReport> gameReport(id_t id) const {
+        return _gameReport(id);
+    }
+
   private:
     std::function<Players()> _getAllPlayers;
     std::function<ArticleHeaders()> _articleHeaders;
@@ -48,6 +54,7 @@ struct Database {
     std::function<Schedule(const std::string &)> _schedule;
     std::function<std::optional<Schedule>(const std::string &, std::uint16_t)>
         _scheduleByWeek;
+    std::function<std::optional<GameReport>(id_t)> _gameReport;
 };
 } // namespace data
 } // namespace mlb

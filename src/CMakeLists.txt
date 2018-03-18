@@ -8,6 +8,7 @@ add_library(mlb-core
     database.cpp
     restparsers/articles.cpp
     restparsers/schedule.cpp
+    restparsers/gamereports.cpp
 )
 
 target_include_directories(mlb-core 

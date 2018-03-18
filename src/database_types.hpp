@@ -8,6 +8,8 @@
 namespace mlb {
 namespace data {
 
+using id_t = std::uint32_t;
+
 struct PlayerShortInfo {
     std::string firstname;
     std::string lastname;
@@ -34,17 +36,50 @@ struct Article {
 };
 
 struct Game {
-    // FIXME:
     std::string datetime;
     Team host;
     Team guest;
     std::string score;
 };
+
 struct Week {
     std::uint16_t weekNumber;
     std::vector<Game> games;
 };
 
+struct GameReport {
+    id_t id;
+    Team host;
+    Team guest;
+    std::vector<std::string> scores;
+
+    struct PlayerStatline {
+        PlayerShortInfo id;
+        std::uint16_t points;
+        // 2 points
+        std::uint16_t fgm;
+        std::uint16_t fga;
+        // 3pts
+        std::uint16_t tpm;
+        std::uint16_t tpa;
+        // free throws
+        std::uint16_t ftm;
+        std::uint16_t fta;
+
+        std::uint16_t defensiveRebounds;
+        std::uint16_t ofensiveRebounds;
+
+        std::uint16_t assists;
+        std::uint16_t steals;
+        std::uint16_t blocks;
+        std::uint16_t turnovers;
+        std::uint16_t fouls;
+        std::uint16_t eval;
+    };
+
+    std::vector<PlayerStatline> hostStats;
+    std::vector<PlayerStatline> guestStats;
+};
 
 using Players = std::vector<PlayerShortInfo>;
 using ArticleHeaders = std::vector<ArticleHeader>;

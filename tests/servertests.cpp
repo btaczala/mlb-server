@@ -102,6 +102,7 @@ TEST_F(ServerTest, get_schedule_major_not_correct) {
     const auto ret = get("http://localhost:9080/mlb/schedule/");
     EXPECT_EQ(std::get<0>(ret), 405);
 }
+
 TEST_F(ServerTest, get_schedule_major) {
     mlb::data::Schedule sched;
     EXPECT_CALL(db, schedule("major")).WillOnce(::testing::Return(sched));
@@ -114,6 +115,19 @@ TEST_F(ServerTest, get_schedule_by_week_not_found) {
     EXPECT_CALL(db, schedule("major", 5)).WillOnce(::testing::Return(opt));
     const auto ret = get("http://localhost:9080/mlb/schedule/major/5");
     EXPECT_EQ(std::get<0>(ret), 404);
+}
+
+TEST_F(ServerTest, get_report_incorrect_request) {
+    const auto ret = get("http://localhost:9080/mlb/gamereport/");
+    EXPECT_EQ(std::get<0>(ret), 406);
+}
+
+TEST_F(ServerTest, get_report_by_id) {
+    mlb::data::GameReport report{
+        10, mlb::data::Team{"", 1}, mlb::data::Team{"", 2}, {}, {}, {}};
+    EXPECT_CALL(db, gameReport(5)).WillOnce(::testing::Return(report));
+    const auto ret = get("http://localhost:9080/mlb/gamereport/5");
+    EXPECT_EQ(std::get<0>(ret), 200);
 }
 
 int main(int argc, char *argv[]) {

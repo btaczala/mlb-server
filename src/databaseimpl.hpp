@@ -14,6 +14,8 @@ struct DatabaseImpl {
                                      std::uint16_t week) const {
         return Schedule{};
     }
+
+    std::optional<GameReport> gameReport(id_t) const { return GameReport{}; }
 };
 } // namespace data
 } // namespace mlb
