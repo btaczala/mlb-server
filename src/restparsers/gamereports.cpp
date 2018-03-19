@@ -23,7 +23,8 @@ void parseGameReporstRequest(web::http::http_request request,
     auto report = db.gameReport(id);
 
     if (report) {
-        request.reply(web::http::status_codes::OK);
+        request.reply(web::http::status_codes::OK,
+                      ResponseConverter::serialize(report.value()));
     } else {
         request.reply(web::http::status_codes::NotFound);
     }

@@ -5,11 +5,12 @@ find_package(OpenSSL REQUIRED)
 add_library(mlb-core
     logger.cpp
     server.cpp
-    database.cpp
     restparsers/articles.cpp
     restparsers/schedule.cpp
     restparsers/gamereports.cpp
 )
+
+clang_tidy_library(mlb-core)
 
 target_include_directories(mlb-core 
   PUBLIC
@@ -28,3 +29,4 @@ target_link_libraries(mlb-core
 
 add_executable(mlb-server main.cpp)
 target_link_libraries(mlb-server mlb-core)
+clang_tidy_library(mlb-server)

@@ -27,7 +27,7 @@ struct Database {
         _gameReport = [&db](id_t id) { return db.gameReport(id); };
     }
 
-    Players allPlayers() const;
+    Players allPlayers() const { return _getAllPlayers(); }
     ArticleHeaders articleHeaders() const { return _articleHeaders(); }
 
     std::optional<Article> article(std::uint32_t id) const {

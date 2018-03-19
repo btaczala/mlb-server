@@ -6,6 +6,8 @@
 #include <curlpp/Options.hpp>
 #include <curlpp/cURLpp.hpp>
 
+#include <nlohmann/json.hpp>
+
 #include "log.h"
 #include "server.hpp"
 
@@ -128,6 +130,10 @@ TEST_F(ServerTest, get_report_by_id) {
     EXPECT_CALL(db, gameReport(5)).WillOnce(::testing::Return(report));
     const auto ret = get("http://localhost:9080/mlb/gamereport/5");
     EXPECT_EQ(std::get<0>(ret), 200);
+
+    auto json = nlohmann::json::parse(std::get<1>(ret));
+
+    EXPECT_TRUE(json.is_object());
 }
 
 int main(int argc, char *argv[]) {

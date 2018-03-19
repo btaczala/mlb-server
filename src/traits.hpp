@@ -4,12 +4,12 @@
 #include <vector>
 
 template <class T>
-struct is_container {
+struct is_vector {
     constexpr static bool value = false;
 };
 
 template <class T, class Alloc>
-struct is_container<std::vector<T, Alloc>> {
+struct is_vector<std::vector<T, Alloc>> {
     constexpr static bool value = true;
 };
 
