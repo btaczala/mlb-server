@@ -1,0 +1,17 @@
+sudo: required
+language: cpp
+dist: trusty
+group: edge
+
+notifications:
+  email: false
+
+services:
+  docker
+
+env:
+  - CMAKE_BUILD_TYPE=Debug
+  - CMAKE_BUILD_TYPE=Release
+
+script:
+  - export CC=clang CXX=clang++ ./travis/build.sh
