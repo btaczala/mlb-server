@@ -50,6 +50,7 @@ flags = [
     '-I' + os.getcwd() + '/3rdParty/metastuff/include',
     '-I' + os.getcwd() + '/3rdParty/spdlog/include',
     '-I' + os.getcwd() + '/src',
+    '-I' + os.getcwd() + '/build',
     '-std=gnu++1z',
     '-isystem', os.getcwd() + '3rdParty/gtest/googlemock/include',
     '-isystem', os.getcwd() + '3rdParty/gtest/googletest/include',

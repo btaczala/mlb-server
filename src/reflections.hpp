@@ -4,6 +4,7 @@
 #include <Meta.h>
 
 #include "database_types.hpp"
+#include "version.hpp"
 
 namespace meta {
 template <>
@@ -69,6 +70,12 @@ inline auto registerMembers<mlb::data::GameReport>() {
                    member("scores", &mlb::data::GameReport::scores),
                    member("hostStats", &mlb::data::GameReport::hostStats),
                    member("guestStats", &mlb::data::GameReport::guestStats));
+}
+template <>
+inline auto registerMembers<mlb::server::Version>() {
+    return members(member("major", &mlb::server::Version::major),
+                   member("minor", &mlb::server::Version::major),
+                   member("release", &mlb::server::Version::major));
 }
 } // namespace meta
 

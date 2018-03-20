@@ -3,6 +3,8 @@
 #include "restparsers/parsers.hpp"
 #include "serverimpl.hpp"
 
+#include "version.hpp"
+
 #include <chrono>
 #include <map>
 #include <thread>
@@ -47,6 +49,12 @@ Server::Server()
     };
 
     d->_listener.support(web::http::methods::GET, handle_get);
+
+    d->requestsMap["version"] = [this](web::http::http_request req) {
+        const mlb::server::Version v;
+        const auto response = ResponseConverter::serialize(v);
+        req.reply(web::http::status_codes::OK, response);
+    };
 
     d->requestsMap["player"] = [this](web::http::http_request req) {
         mlb_server_debug("Get player info");

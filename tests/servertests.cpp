@@ -136,6 +136,14 @@ TEST_F(ServerTest, get_report_by_id) {
     EXPECT_TRUE(json.is_object());
 }
 
+TEST_F(ServerTest, get_version) {
+    const auto ret = get("http://localhost:9080/mlb/version");
+    EXPECT_EQ(std::get<0>(ret), 200);
+
+    auto json = nlohmann::json::parse(std::get<1>(ret));
+    EXPECT_TRUE(json.is_object());
+}
+
 int main(int argc, char *argv[]) {
     setupLogger();
     ::testing::InitGoogleTest(&argc, argv);

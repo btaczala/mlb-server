@@ -1,11 +1,14 @@
-project(rdm-server)
-
 cmake_minimum_required(VERSION 3.7)
+cmake_policy(SET CMP0048 NEW)
+project(rdm-server VERSION 0.0.1)
 
 find_program(IWYU_PATH NAMES include-what-you-use iwyu)
 message(STATUS ${IWYU_PATH})
 
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_SOURCE_DIR}/cmake/modules")
+configure_file(${CMAKE_SOURCE_DIR}/src/version.hpp.cmake ${CMAKE_CURRENT_BINARY_DIR}/version.hpp)
+
+set(MLB_VERSION "0.0.1")
 
 option(ENABLE_TESTING "Enables unit tests" ON)
 option(DISABLE_3rdParty "Disables 3rdParty packages" OFF)

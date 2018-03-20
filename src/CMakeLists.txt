@@ -17,6 +17,7 @@ target_include_directories(mlb-core
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/3rdParty/metastuff/include
     ${CMAKE_SOURCE_DIR}/3rdParty/json/include
+    ${CMAKE_BINARY_DIR}
 )
 target_link_libraries(mlb-core
   PRIVATE
