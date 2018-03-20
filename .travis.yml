@@ -14,4 +14,5 @@ env:
   - CMAKE_BUILD_TYPE=Release
 
 script:
-  - export CC=clang CXX=clang++ ./travis/build.sh
+  - export CC=clang CXX=clang++ 
+  - ./travis/build.sh
