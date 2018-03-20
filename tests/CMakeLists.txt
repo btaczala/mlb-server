@@ -1,16 +1,18 @@
 find_package(GTest REQUIRED)
 
-add_executable(ServerTest servertests.cpp)
-target_link_libraries(ServerTest mlb-core gtest curlpp gmock)
-target_include_directories(ServerTest PRIVATE ${CMAKE_SOURCE_DIR}/3rdParty/curlpp/include)
-gtest_add_tests(ServerTest "" servertests.cpp)
+function(mlb_add_test testName)
+    string(TOLOWER ${testName} lowerTestName)
+    set(test_filename ${lowerTestName}s.cpp)
+    add_executable(${testName} ${test_filename})
+    target_link_libraries(${testName} mlb-core curlpp gtest gmock)
+    target_include_directories(${testName} 
+      PRIVATE 
+        ${CMAKE_SOURCE_DIR}/3rdParty/curlpp/include
+        ${CMAKE_SOURCE_DIR}/3rdParty/gtest/googlemock/include
+    )
+    gtest_add_tests(${testName} "" ${test_filename})
+endfunction()
 
-add_executable(JsonConverterTest jsonconvertertests.cpp)
-target_link_libraries(JsonConverterTest mlb-core gtest curlpp gmock)
-target_include_directories(JsonConverterTest PRIVATE ${CMAKE_SOURCE_DIR}/3rdParty/curlpp/include)
-gtest_add_tests(JsonConverterTest "" jsonconvertertests.cpp)
-
-add_executable(MultipleRequestsTest multiplerequeststests.cpp)
-target_link_libraries(MultipleRequestsTest mlb-core gtest curlpp gmock)
-target_include_directories(MultipleRequestsTest PRIVATE ${CMAKE_SOURCE_DIR}/3rdParty/curlpp/include)
-gtest_add_tests(MultipleRequestsTest "" multiplerequeststests.cpp)
+mlb_add_test(ServerTest)
+mlb_add_test(JsonConverterTest)
+mlb_add_test(MultipleRequestsTest)
