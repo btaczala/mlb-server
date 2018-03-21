@@ -26,6 +26,7 @@ target_link_libraries(mlb-core
     OpenSSL::SSL
   PUBLIC
     spdlog
+    date
 )
 
 add_executable(mlb-server main.cpp)

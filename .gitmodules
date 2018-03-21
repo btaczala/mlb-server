@@ -13,3 +13,6 @@
 [submodule "3rdParty/json"]
 	path = 3rdParty/json
 	url = https://github.com/nlohmann/json.git
+[submodule "3rdParty/date"]
+	path = 3rdParty/date
+	url = https://github.com/HowardHinnant/date.git

@@ -1,10 +1,11 @@
 #include <gtest/gtest.h>
+#include <nlohmann/json.hpp>
 
 #include "database_types.hpp"
 #include "log.h"
 #include "responseconverter.hpp"
 
-#include <nlohmann/json.hpp>
+using namespace mlb::data;
 
 namespace fakeData {
 const mlb::data::Team teamA{"Team A", 1};
@@ -114,6 +115,24 @@ TEST(JsonConverter, gameReport) {
     EXPECT_EQ(js["id"], gr.id);
     EXPECT_EQ(js["host"]["id"], gr.host.id);
     EXPECT_EQ(js["scores"].get<decltype(gr.scores)>(), gr.scores);
+}
+
+TEST(JsonConverter, comment) {
+    using namespace date;
+    Comment cmt{10, User{"A", "B"}, "this is a test comment",
+                2015_y / mar / 22};
+
+    EXPECT_EQ("", ResponseConverter::serialize(cmt));
+}
+
+TEST(JsonConverter, picture) {
+    mlb::data::Picture picture{mlb::data::Picture::Type::jpg, ""};
+
+    EXPECT_EQ(ResponseConverter::serialize(picture),
+              "{\"data\":\"\",\"type\":3}");
+    mlb::data::Picture picture2;
+    EXPECT_EQ(ResponseConverter::serialize(picture2),
+              "{\"data\":\"\",\"type\":0}");
 }
 
 int main(int argc, char *argv[]) {

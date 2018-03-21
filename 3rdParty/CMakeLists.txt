@@ -24,3 +24,6 @@ else()
     target_include_directories(curlpp INTERFACE ${CURLPP_INCLUDE_DIR})
     target_link_libraries(curlpp INTERFACE ${CURLPP_LIBRARY} ${CURL_LIBRARIES})
 endif()
+
+add_library(date INTERFACE)
+target_include_directories(date INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/date/include)

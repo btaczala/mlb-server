@@ -5,10 +5,13 @@
 #include <string>
 #include <vector>
 
+#include <date/date.h>
+
 namespace mlb {
 namespace data {
 
 using id_t = std::uint32_t;
+using DateTime = std::chrono::time_point<std::chrono::system_clock, date::days>;
 
 struct PlayerShortInfo {
     std::string firstname;
@@ -21,17 +24,33 @@ struct Team {
     std::uint32_t id;
 };
 
+struct User {
+    std::string firstName;
+    std::string lastName;
+};
+
+struct Picture {
+    enum class Type : std::uint8_t { null = 0, uri, png, jpg } type{Type::null};
+    std::string data;
+};
+
 struct ArticleHeader {
     std::string title;
     std::string postedDate;
     std::uint32_t numberOfComments;
     std::string author;
+    Picture picture;
 };
 
-struct Comment {};
+struct Comment {
+    id_t id;
+    User whom;
+    std::string data;
+    DateTime postDate;
+};
 
 struct Article {
-    std::string title;
+    ArticleHeader header;
     std::vector<Comment> comments;
 };
 

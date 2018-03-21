@@ -15,12 +15,31 @@ inline auto registerMembers<mlb::data::PlayerShortInfo>() {
 }
 
 template <>
+inline auto registerMembers<mlb::data::Picture>() {
+    return members(member("type", &mlb::data::Picture::type),
+                   member("data", &mlb::data::Picture::data));
+}
+
+template <>
+inline auto registerMembers<mlb::data::User>() {
+    return members(member("firstName", &mlb::data::User::firstName),
+                   member("lastName", &mlb::data::User::lastName));
+}
+
+template <>
 inline auto registerMembers<mlb::data::ArticleHeader>() {
     return members(
         member("title", &mlb::data::ArticleHeader::title),
         member("postedDate", &mlb::data::ArticleHeader::postedDate),
         member("numberOfComments", &mlb::data::ArticleHeader::numberOfComments),
         member("author", &mlb::data::ArticleHeader::author));
+}
+
+template <>
+inline auto registerMembers<mlb::data::Comment>() {
+    return members(member("id", &mlb::data::Comment::id),
+                   member("whom", &mlb::data::Comment::whom),
+                   member("data", &mlb::data::Comment::data));
 }
 
 template <>

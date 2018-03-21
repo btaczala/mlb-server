@@ -49,6 +49,7 @@ flags = [
     '-I' + os.getcwd() + '/3rdParty/json/include',
     '-I' + os.getcwd() + '/3rdParty/metastuff/include',
     '-I' + os.getcwd() + '/3rdParty/spdlog/include',
+    '-I' + os.getcwd() + '/3rdParty/date/include',
     '-I' + os.getcwd() + '/src',
     '-I' + os.getcwd() + '/build',
     '-std=gnu++1z',
