@@ -43,15 +43,18 @@ struct ArticleHeader {
 };
 
 struct Comment {
-    id_t id;
-    User whom;
-    std::string data;
-    DateTime postDate;
+    std::string date;
+    std::string text;
+};
+
+struct Picture {
+    std::string url;
 };
 
 struct Article {
     ArticleHeader header;
     std::vector<Comment> comments;
+    Picture mainPicture;
 };
 
 struct Game {

@@ -1,9 +1,9 @@
-#include <cpprest/http_msg.h>
-
+#include "parsers.hpp"
 #include "database.hpp"
 #include "log.h"
-#include "parsers.hpp"
 #include "responseconverter.hpp"
+
+#include <cpprest/http_msg.h>
 
 namespace mlb {
 namespace restParsers {
@@ -64,7 +64,7 @@ void Schedule::parse(web::http::http_request request,
 }
 
 void Game::parse(web::http::http_request request,
-                             const mlb::data::Database &db) {
+                 const mlb::data::Database &db) {
     const auto paths =
         web::http::uri::split_path(request.request_uri().to_string());
 
@@ -82,6 +82,14 @@ void Game::parse(web::http::http_request request,
     } else {
         request.reply(web::http::status_codes::NotFound);
     }
+}
+
+void Player::parse(web::http::http_request request,
+                   const mlb::data::Database &db) {
+    mlb_server_debug("Get player info");
+    const auto response = ResponseConverter::serialize(db.allPlayers());
+    mlb_server_info("Sending response {}", response);
+    request.reply(web::http::status_codes::OK, response);
 }
 } // namespace restParsers
 } // namespace mlb

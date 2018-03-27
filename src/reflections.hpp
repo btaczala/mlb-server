@@ -13,19 +13,6 @@ inline auto registerMembers<mlb::data::PlayerShortInfo>() {
                    member("lastname", &mlb::data::PlayerShortInfo::lastname),
                    member("id", &mlb::data::PlayerShortInfo::id));
 }
-
-template <>
-inline auto registerMembers<mlb::data::Picture>() {
-    return members(member("type", &mlb::data::Picture::type),
-                   member("data", &mlb::data::Picture::data));
-}
-
-template <>
-inline auto registerMembers<mlb::data::User>() {
-    return members(member("firstName", &mlb::data::User::firstName),
-                   member("lastName", &mlb::data::User::lastName));
-}
-
 template <>
 inline auto registerMembers<mlb::data::ArticleHeader>() {
     return members(
@@ -37,9 +24,21 @@ inline auto registerMembers<mlb::data::ArticleHeader>() {
 
 template <>
 inline auto registerMembers<mlb::data::Comment>() {
+<<<<<<< HEAD
     return members(member("id", &mlb::data::Comment::id),
                    member("whom", &mlb::data::Comment::whom),
                    member("data", &mlb::data::Comment::data));
+=======
+    return members(member("date", &mlb::data::Comment::date),
+                   member("text", &mlb::data::Comment::text));
+}
+
+template <>
+inline auto registerMembers<mlb::data::Article>() {
+    return members(member("title", &mlb::data::Article::title),
+                   member("comments", &mlb::data::Article::comments),
+                   member("picture", &mlb::data::Article::mainPicture));
+>>>>>>> minor changes
 }
 
 template <>

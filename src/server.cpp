@@ -62,20 +62,14 @@ Server::Server()
     };
 
     registerParsers<restParsers::ArticleParser, restParsers::Schedule,
-                    restParsers::Game>(d->requestsMap, database);
+                    restParsers::Game, restParsers::Player>(d->requestsMap,
+                                                            database);
 
     d->_listener.support(web::http::methods::GET, handle_get);
 
     d->requestsMap["version"] = [this](web::http::http_request req) {
         const mlb::server::Version v;
         const auto response = ResponseConverter::serialize(v);
-        req.reply(web::http::status_codes::OK, response);
-    };
-
-    d->requestsMap["player"] = [this](web::http::http_request req) {
-        mlb_server_debug("Get player info");
-        const auto response = d->converter.serialize(database.allPlayers());
-        mlb_server_info("Sending response {}", response);
         req.reply(web::http::status_codes::OK, response);
     };
 
