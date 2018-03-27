@@ -24,14 +24,13 @@ struct Team {
     std::uint32_t id;
 };
 
+struct Picture {
+    std::string url;
+};
+
 struct User {
     std::string firstName;
     std::string lastName;
-};
-
-struct Picture {
-    enum class Type : std::uint8_t { null = 0, uri, png, jpg } type{Type::null};
-    std::string data;
 };
 
 struct ArticleHeader {
@@ -43,12 +42,9 @@ struct ArticleHeader {
 };
 
 struct Comment {
+    id_t id;
     std::string date;
-    std::string text;
-};
-
-struct Picture {
-    std::string url;
+    std::string data;
 };
 
 struct Article {

@@ -24,13 +24,9 @@ inline auto registerMembers<mlb::data::ArticleHeader>() {
 
 template <>
 inline auto registerMembers<mlb::data::Comment>() {
-<<<<<<< HEAD
     return members(member("id", &mlb::data::Comment::id),
-                   member("whom", &mlb::data::Comment::whom),
-                   member("data", &mlb::data::Comment::data));
-=======
-    return members(member("date", &mlb::data::Comment::date),
-                   member("text", &mlb::data::Comment::text));
+                   member("date", &mlb::data::Comment::date),
+                   member("text", &mlb::data::Comment::data));
 }
 
 template <>
@@ -38,7 +34,6 @@ inline auto registerMembers<mlb::data::Article>() {
     return members(member("title", &mlb::data::Article::title),
                    member("comments", &mlb::data::Article::comments),
                    member("picture", &mlb::data::Article::mainPicture));
->>>>>>> minor changes
 }
 
 template <>

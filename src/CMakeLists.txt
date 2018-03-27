@@ -5,7 +5,6 @@ find_package(OpenSSL REQUIRED)
 add_library(mlb-core
     logger.cpp
     server.cpp
-    database.cpp
     restparsers/parsers.cpp
 )
 
