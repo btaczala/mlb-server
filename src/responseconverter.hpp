@@ -31,10 +31,7 @@ nlohmann::json convert(Value &&v) {
         is_convertible<CleanType>::value,
         "Type must be registered to metastuff or convertible to json");
 
-    // For containers :
-    // iterate over the container and pass each element to convert function
     if constexpr (is_supported_container<CleanType>::value) {
-        std::size_t index = 0;
         std::transform(std::begin(v), std::end(v), std::back_inserter(json),
                        [](const auto &element) { return convert(element); });
 

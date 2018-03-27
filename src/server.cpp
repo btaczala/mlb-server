@@ -2,6 +2,7 @@
 #include "log.h"
 #include "restparsers/parsers.hpp"
 #include "serverimpl.hpp"
+#include "tuple_foreach.hpp"
 
 #include "version.hpp"
 
@@ -17,6 +18,18 @@ web::http::uri buildUri(const std::string &address, std::uint16_t port) {
 
     mlb_server_trace("Uri = {}", builder.to_string());
     return builder.to_uri();
+}
+
+template <typename... Parsers>
+void registerParsers(mlb::server::ServerImpl::RequestMap &m,
+                     const mlb::data::Database &database) {
+    std::tuple<Parsers...> s;
+    for_each(s, [&m, &database](const auto &v) {
+        using Type = std::decay_t<decltype(v)>;
+        m[v.name()] = [&database](web::http::http_request request) {
+            Type::parse(request, database);
+        };
+    });
 }
 } // namespace
 
@@ -48,6 +61,9 @@ Server::Server()
         it->second(request);
     };
 
+    registerParsers<restParsers::ArticleParser, restParsers::Schedule,
+                    restParsers::Game>(d->requestsMap, database);
+
     d->_listener.support(web::http::methods::GET, handle_get);
 
     d->requestsMap["version"] = [this](web::http::http_request req) {
@@ -65,18 +81,6 @@ Server::Server()
 
     d->requestsMap["ping"] = [](web::http::http_request req) {
         req.reply(web::http::status_codes::OK);
-    };
-
-    d->requestsMap["article"] = [this](web::http::http_request request) {
-        restParsers::parseArticleRequest(request, database, d->converter);
-    };
-
-    d->requestsMap["schedule"] = [this](web::http::http_request request) {
-        restParsers::parseScheduleRequest(request, database, d->converter);
-    };
-
-    d->requestsMap["gamereport"] = [this](web::http::http_request request) {
-        restParsers::parseGameReporstRequest(request, database, d->converter);
     };
 };
 

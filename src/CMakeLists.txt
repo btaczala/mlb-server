@@ -5,9 +5,8 @@ find_package(OpenSSL REQUIRED)
 add_library(mlb-core
     logger.cpp
     server.cpp
-    restparsers/articles.cpp
-    restparsers/schedule.cpp
-    restparsers/gamereports.cpp
+    database.cpp
+    restparsers/parsers.cpp
 )
 
 clang_tidy_library(mlb-core)
