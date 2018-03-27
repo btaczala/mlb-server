@@ -16,3 +16,6 @@
 [submodule "3rdParty/date"]
 	path = 3rdParty/date
 	url = https://github.com/HowardHinnant/date.git
+[submodule "3rdParty/cxxopts"]
+	path = 3rdParty/cxxopts
+	url = https://github.com/jarro2783/cxxopts.git
