@@ -14,8 +14,8 @@ using id_t = std::uint32_t;
 using DateTime = std::chrono::time_point<std::chrono::system_clock, date::days>;
 
 struct PlayerShortInfo {
-    std::string firstname;
-    std::string lastname;
+    std::string firstName;
+    std::string lastName;
     std::uint32_t id;
 };
 
@@ -43,8 +43,9 @@ struct ArticleHeader {
 
 struct Comment {
     id_t id;
-    std::string date;
-    std::string data;
+    User user;
+    std::string text;
+    DateTime date;
 };
 
 struct Article {

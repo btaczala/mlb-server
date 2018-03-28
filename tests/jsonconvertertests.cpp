@@ -38,7 +38,7 @@ TEST(JsonConverter, players) {
 
     const auto json = ResponseConverter::serialize(p);
     const auto expected =
-        R"([{"firstname":"asd","id":10,"lastname":"asd"},{"firstname":"asd","id":20,"lastname":"bsd"}])";
+        R"([{"firstName":"asd","id":10,"lastName":"asd"},{"firstName":"asd","id":20,"lastName":"bsd"}])";
 
     EXPECT_EQ(json, expected);
 }
@@ -97,7 +97,7 @@ TEST(JsonConverter, playerShortInfo) {
     mlb::data::PlayerShortInfo p{"asd", "asd", 10};
 
     const auto json = ResponseConverter::serialize(p);
-    const auto expected = R"({"firstname":"asd","id":10,"lastname":"asd"})";
+    const auto expected = R"({"firstName":"asd","id":10,"lastName":"asd"})";
 
     EXPECT_EQ(json, expected);
 }
@@ -122,17 +122,9 @@ TEST(JsonConverter, comment) {
     Comment cmt{10, User{"A", "B"}, "this is a test comment",
                 2015_y / mar / 22};
 
-    EXPECT_EQ("", ResponseConverter::serialize(cmt));
-}
-
-TEST(JsonConverter, picture) {
-    mlb::data::Picture picture{mlb::data::Picture::Type::jpg, ""};
-
-    EXPECT_EQ(ResponseConverter::serialize(picture),
-              "{\"data\":\"\",\"type\":3}");
-    mlb::data::Picture picture2;
-    EXPECT_EQ(ResponseConverter::serialize(picture2),
-              "{\"data\":\"\",\"type\":0}");
+    EXPECT_EQ("{\"id\":10,\"text\":\"this is a test "
+              "comment\",\"user\":{\"firstName\":\"A\",\"lastName\":\"B\"}}",
+              ResponseConverter::serialize(cmt));
 }
 
 int main(int argc, char *argv[]) {

@@ -9,8 +9,8 @@
 namespace meta {
 template <>
 inline auto registerMembers<mlb::data::PlayerShortInfo>() {
-    return members(member("firstname", &mlb::data::PlayerShortInfo::firstname),
-                   member("lastname", &mlb::data::PlayerShortInfo::lastname),
+    return members(member("firstName", &mlb::data::PlayerShortInfo::firstName),
+                   member("lastName", &mlb::data::PlayerShortInfo::lastName),
                    member("id", &mlb::data::PlayerShortInfo::id));
 }
 template <>
@@ -23,15 +23,21 @@ inline auto registerMembers<mlb::data::ArticleHeader>() {
 }
 
 template <>
+inline auto registerMembers<mlb::data::User>() {
+    return members(member("firstName", &mlb::data::User::firstName),
+                   member("lastName", &mlb::data::User::lastName));
+}
+
+template <>
 inline auto registerMembers<mlb::data::Comment>() {
     return members(member("id", &mlb::data::Comment::id),
-                   member("date", &mlb::data::Comment::date),
-                   member("text", &mlb::data::Comment::data));
+                   member("user", &mlb::data::Comment::user),
+                   member("text", &mlb::data::Comment::text));
 }
 
 template <>
 inline auto registerMembers<mlb::data::Article>() {
-    return members(member("title", &mlb::data::Article::title),
+    return members(member("header", &mlb::data::Article::header),
                    member("comments", &mlb::data::Article::comments),
                    member("picture", &mlb::data::Article::mainPicture));
 }

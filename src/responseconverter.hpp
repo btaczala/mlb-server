@@ -27,9 +27,6 @@ nlohmann::json convert(Value &&v) {
     nlohmann::json json;
 
     using CleanType = typename std::decay<Value>::type;
-    static_assert(
-        is_convertible<CleanType>::value,
-        "Type must be registered to metastuff or convertible to json");
 
     if constexpr (is_supported_container<CleanType>::value) {
         std::transform(std::begin(v), std::end(v), std::back_inserter(json),
