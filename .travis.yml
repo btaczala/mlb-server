@@ -10,13 +10,12 @@ services:
   docker
 
 env:
-  - CMAKE_BUILD_TYPE=Debug CC=clang CXX=clang++ SANITIZER=address
-  - CMAKE_BUILD_TYPE=Debug CC=clang CXX=clang++ SANITIZER=memory
-  - CMAKE_BUILD_TYPE=Debug CC=clang CXX=clang++ SANITIZER=thread
-  - CMAKE_BUILD_TYPE=Debug CC=clang CXX=clang++
-  - CMAKE_BUILD_TYPE=Debug CC=gcc CXX=g++
-  - CMAKE_BUILD_TYPE=Release CC=clang CXX=clang++
-  - CMAKE_BUILD_TYPE=Release CC=gcc CXX=g++
+  - CMAKE_BUILD_TYPE=Debug CC=clang CXX=clang++ BUILD_ALL=ON SANITIZER=address
+  - CMAKE_BUILD_TYPE=Debug CC=clang CXX=clang++ BUILD_ALL=ON SANITIZER=thread
+  - CMAKE_BUILD_TYPE=Debug CC=clang CXX=clang++ BUILD_ALL=OFF
+  - CMAKE_BUILD_TYPE=Debug CC=gcc CXX=g++ BUILD_ALL=OFF
+  - CMAKE_BUILD_TYPE=Release CC=clang CXX=clang++ BUILD_ALL=OFF
+  - CMAKE_BUILD_TYPE=Release CC=gcc CXX=g++ BUILD_ALL=OFF
 
 script:
   - export CC=clang CXX=clang++ 

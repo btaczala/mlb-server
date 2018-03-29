@@ -11,7 +11,7 @@ configure_file(${CMAKE_SOURCE_DIR}/src/version.hpp.cmake ${CMAKE_CURRENT_BINARY_
 set(MLB_VERSION "0.0.1")
 
 option(ENABLE_TESTING "Enables unit tests" ON)
-option(DISABLE_3rdParty "Disables 3rdParty packages" OFF)
+option(BUILD_ALL "Build 3rdParty packages also" ON)
 set(CMAKE_CXX_STANDARD 17)
 
 include(cmake/Sanitize.cmake)
