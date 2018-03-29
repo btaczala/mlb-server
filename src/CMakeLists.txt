@@ -28,5 +28,5 @@ target_link_libraries(mlb-core
 )
 
 add_executable(mlb-server main.cpp)
-target_link_libraries(mlb-server mlb-core)
+target_link_libraries(mlb-server mlb-core cxxopts)
 clang_tidy_library(mlb-server)
