@@ -10,6 +10,9 @@ services:
   docker
 
 env:
+  - CMAKE_BUILD_TYPE=Debug CC=clang CXX=clang++ SANITIZER=address
+  - CMAKE_BUILD_TYPE=Debug CC=clang CXX=clang++ SANITIZER=memory
+  - CMAKE_BUILD_TYPE=Debug CC=clang CXX=clang++ SANITIZER=thread
   - CMAKE_BUILD_TYPE=Debug CC=clang CXX=clang++
   - CMAKE_BUILD_TYPE=Debug CC=gcc CXX=g++
   - CMAKE_BUILD_TYPE=Release CC=clang CXX=clang++

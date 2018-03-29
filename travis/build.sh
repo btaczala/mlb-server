@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cmake_command="cmake /home/sources/ -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE -DDISABLE_3rdParty=ON -GNinja "
+cmake_command="cmake /home/sources/ -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE -DDISABLE_3rdParty=ON -GNinja -DSANITIZER=$SANITIZER"
 
 docker run --rm \
     -v `pwd`:/home/sources bartekt/mlb-docker /bin/bash \
