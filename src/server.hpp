@@ -18,6 +18,8 @@ struct Server {
     void start();
     void stop();
 
+    bool isRunning() const noexcept;
+
     template <typename DatabaseImpl>
     void setDatabaseImpl(DatabaseImpl&& db) {
         database.setImpl(std::forward<DatabaseImpl>(db));

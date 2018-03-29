@@ -30,6 +30,10 @@ struct ServerTestNoDatabase : public ::testing::Test {
 
     void SetUp() override {
         _serverThread = std::thread([this]() { s.start(); });
+
+        while (!s.isRunning()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
     }
 
     void TearDown() override {

@@ -26,5 +26,12 @@ int main(int argc, const char **argv) {
     mlb::server::Server s;
     s.setDatabaseImpl(db);
     s.start();
+
+    while (not s.isRunning()) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    mlb_server_info("Server is up and running");
+
     return 0;
 }

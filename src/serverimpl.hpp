@@ -1,6 +1,7 @@
 #ifndef SERVERIMPL_HPP_6MXFQPLZ
 #define SERVERIMPL_HPP_6MXFQPLZ
 
+#include <atomic>
 #include <condition_variable>
 #include <map>
 #include <thread>
@@ -12,11 +13,13 @@
 namespace mlb {
 namespace server {
 struct ServerImpl {
-    ServerImpl(const web::http::uri &address) : _listener(address) {}
+    ServerImpl(const web::http::uri &address)
+        : _listener(address), working(false) {}
     web::http::experimental::listener::http_listener _listener;
 
     std::mutex m;
     std::condition_variable cv;
+    std::atomic<bool> working;
     using RequestMap =
         std::map<web::http::uri, std::function<void(web::http::http_request)>>;
 

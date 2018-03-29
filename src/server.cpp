@@ -88,9 +88,10 @@ void Server::start() {
         })
         .wait();
     std::unique_lock<std::mutex> lk(d->m);
+    d->working.store(true);
     while (d->cv.wait_for(lk, std::chrono::seconds(5)) ==
            std::cv_status::timeout) {
-        mlb_server_debug("Server working");
+        mlb_server_trace("Server is still working");
     }
 
     mlb_server_info("Server exiting");
@@ -98,8 +99,13 @@ void Server::start() {
 
 void Server::stop() {
     mlb_server_info("Stopping server");
+    if (!d->working.load()) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
     d->cv.notify_one();
 }
+
+bool Server::isRunning() const noexcept { return d->working.load(); }
 
 } // namespace server
 } // namespace mlb
