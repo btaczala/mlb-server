@@ -14,6 +14,7 @@ option(ENABLE_TESTING "Enables unit tests" ON)
 option(DISABLE_3rdParty "Disables 3rdParty packages" OFF)
 set(CMAKE_CXX_STANDARD 17)
 
+include(cmake/Sanitize.cmake)
 include(cmake/clang-tidy.cmake)
 
 add_subdirectory(3rdParty)

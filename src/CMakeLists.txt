@@ -7,6 +7,7 @@ add_library(mlb-core
     server.cpp
     restparsers/parsers.cpp
 )
+add_mlb_sanitizers(mlb-core)
 
 clang_tidy_library(mlb-core)
 
@@ -17,6 +18,7 @@ target_include_directories(mlb-core
     ${CMAKE_SOURCE_DIR}/3rdParty/json/include
     ${CMAKE_BINARY_DIR}
 )
+
 target_link_libraries(mlb-core
   PRIVATE
     cpprestsdk::cpprest
