@@ -34,7 +34,9 @@ struct User {
 };
 
 struct ArticleHeader {
+    id_t id;
     std::string title;
+    std::string text;
     std::string postedDate;
     std::uint32_t numberOfComments;
     std::string author;

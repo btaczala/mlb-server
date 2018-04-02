@@ -52,7 +52,7 @@ TEST_F(MutlipleRequestsTest, two_requests) {
     mlb::data::Players players{{"Kenny", "Smith", 100},
                                {"LeBron", "James", 101}};
     mlb::data::ArticleHeaders articles{
-        {"Title", "2018-12-10", 10, "Lady Gaga"}};
+        {0, "Title", "", "2018-12-10", 10, "Lady Gaga"}};
     EXPECT_CALL(db, allPlayers()).WillOnce(::testing::Invoke([&players]() {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         return players;

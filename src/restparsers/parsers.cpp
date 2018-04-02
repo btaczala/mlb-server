@@ -16,6 +16,7 @@ void ArticleParser::parse(web::http::http_request request,
     using namespace web::http;
     if (paths.size() == 2) {
         const auto resp = ResponseConverter::serialize(db.articleHeaders());
+        mlb_server_debug("Response is {}", resp);
         request.reply(status_codes::OK, resp);
         return;
     } else if (paths.size() == 3) {

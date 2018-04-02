@@ -6,8 +6,11 @@
 namespace mlb {
 namespace data {
 struct DatabaseImpl {
+
+    DatabaseImpl(bool useFakeData);
+
     Players allPlayers() const { return Players{}; }
-    ArticleHeaders articleHeaders() const { return ArticleHeaders{}; }
+    ArticleHeaders articleHeaders() const;
     std::optional<Article> article(std::uint32_t id) const { return Article{}; }
     Schedule schedule(const std::string &) const { return Schedule{}; }
     std::optional<Schedule> schedule(const std::string &,
@@ -16,6 +19,8 @@ struct DatabaseImpl {
     }
 
     std::optional<GameReport> gameReport(id_t) const { return GameReport{}; }
+
+    const bool _fake;
 };
 } // namespace data
 } // namespace mlb

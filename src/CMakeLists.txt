@@ -5,6 +5,7 @@ find_package(OpenSSL REQUIRED)
 add_library(mlb-core
     logger.cpp
     server.cpp
+    databaseimpl.cpp
     restparsers/parsers.cpp
 )
 add_mlb_sanitizers(mlb-core)

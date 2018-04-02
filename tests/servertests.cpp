@@ -83,7 +83,7 @@ TEST_F(ServerTest, get_all_players) {
 
 TEST_F(ServerTest, get_article_list) {
     mlb::data::ArticleHeaders articles{
-        {"Title", "2018-12-10", 10, "Lady Gaga"}};
+        {0, "Title", "", "2018-12-10", 10, "Lady Gaga"}};
     EXPECT_CALL(db, articleHeaders()).WillOnce(::testing::Return(articles));
     const auto ret = get("http://localhost:9080/mlb/article");
     EXPECT_EQ(std::get<0>(ret), 200);
@@ -91,7 +91,7 @@ TEST_F(ServerTest, get_article_list) {
 }
 
 TEST_F(ServerTest, get_article) {
-    mlb::data::Article art{"", {}};
+    mlb::data::Article art{10, "", {}};
     EXPECT_CALL(db, article(10)).WillOnce(::testing::Return(art));
     const auto ret = get("http://localhost:9080/mlb/article/10");
     EXPECT_EQ(std::get<0>(ret), 200);

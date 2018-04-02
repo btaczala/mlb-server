@@ -9,8 +9,8 @@ int main(int argc, const char **argv) {
 
     cxxopts::Options opts{"mlb-server", "REST server for MLB"};
 
-    opts.add_options()("v,verbose", "Enable verbose mode")("h,help",
-                                                           "Show help");
+    opts.add_options()("v,verbose", "Enable verbose mode")(
+        "h,help", "Show help")("d,dummp", "Dummy database implementation");
 
     const auto result = opts.parse(argc, argv);
 
@@ -19,9 +19,10 @@ int main(int argc, const char **argv) {
         return EXIT_SUCCESS;
     }
 
-    setupLogger(result.count("d") != 0);
+    setupLogger(result.count("v") != 0);
 
-    mlb::data::DatabaseImpl db;
+    mlb::data::DatabaseImpl db{result.count("d") != 0};
+    mlb_server_debug("Using fake data? {}", result.count("d") != 0);
 
     mlb::server::Server s;
     s.setDatabaseImpl(db);
