@@ -6,6 +6,7 @@ add_library(mlb-core
     logger.cpp
     server.cpp
     databaseimpl.cpp
+    databaseimpldummy.cpp
     restparsers/parsers.cpp
 )
 add_mlb_sanitizers(mlb-core)
@@ -20,6 +21,8 @@ target_include_directories(mlb-core
     ${CMAKE_BINARY_DIR}
 )
 
+target_compile_definitions(mlb-core PUBLIC DUMMYDATA="${CMAKE_SOURCE_DIR}/dummydata")
+
 target_link_libraries(mlb-core
   PRIVATE
     cpprestsdk::cpprest
@@ -28,6 +31,8 @@ target_link_libraries(mlb-core
   PUBLIC
     spdlog
     date
+    PUBLIC
+    stdc++fs
 )
 
 add_executable(mlb-server main.cpp)

@@ -24,6 +24,11 @@ struct ArticleParser : public Parser<ArticleParser, typestring_is("article")> {
                       const mlb::data::Database &db);
 };
 
+struct ArticleHeadersParser : public Parser<ArticleParser, typestring_is("articleHeaders")> {
+    static void parse(web::http::http_request request,
+                      const mlb::data::Database &db);
+};
+
 struct Schedule : public Parser<Schedule, typestring_is("schedule")> {
     static void parse(web::http::http_request request,
                       const mlb::data::Database &db);

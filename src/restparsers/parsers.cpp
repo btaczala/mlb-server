@@ -7,17 +7,14 @@
 
 namespace mlb {
 namespace restParsers {
+using namespace web::http;
 
 void ArticleParser::parse(web::http::http_request request,
                           const mlb::data::Database &db) {
-    const auto paths =
-        web::http::uri::split_path(request.request_uri().to_string());
+    const auto paths = uri::split_path(request.request_uri().to_string());
 
-    using namespace web::http;
     if (paths.size() == 2) {
-        const auto resp = ResponseConverter::serialize(db.articleHeaders());
-        mlb_server_debug("Response is {}", resp);
-        request.reply(status_codes::OK, resp);
+        request.reply(status_codes::BadRequest);
         return;
     } else if (paths.size() == 3) {
         const auto artId = std::stoi(paths.at(2));
@@ -31,6 +28,29 @@ void ArticleParser::parse(web::http::http_request request,
     }
 
     request.reply(web::http::status_codes::NotAcceptable);
+}
+
+void ArticleHeadersParser::parse(web::http::http_request request,
+                                 const mlb::data::Database &db) {
+    const auto paths = uri::split_path(request.request_uri().to_string());
+
+    mlb_server_debug("ArticleHeaders::parse()");
+    data::ArticleHeaders tmpArts = db.articleHeaders();
+    if (paths.size() == 2) {
+        // default implementation get last 10 articles
+        if (tmpArts.size() > 10) {
+            tmpArts.resize(10);
+        }
+    } else if (paths.size() == 3) {
+        const auto numberOfArticles = std::stoi(paths.at(2));
+        if (tmpArts.size() > numberOfArticles) {
+            tmpArts.resize(numberOfArticles);
+        }
+    }
+
+    const auto resp = ResponseConverter::serialize(tmpArts);
+    mlb_server_debug("Response is {}", resp);
+    request.reply(status_codes::OK, resp);
 }
 
 void Schedule::parse(web::http::http_request request,

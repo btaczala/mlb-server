@@ -1,16 +1,19 @@
 #include "database.hpp"
 #include "databaseimpl.hpp"
+#include "databaseimpldummy.hpp"
 #include "log.h"
 #include "server.hpp"
 
 #include <cxxopts.hpp>
+
+const std::string baseDummyDir{DUMMYDATA};
 
 int main(int argc, const char **argv) {
 
     cxxopts::Options opts{"mlb-server", "REST server for MLB"};
 
     opts.add_options()("v,verbose", "Enable verbose mode")(
-        "h,help", "Show help")("d,dummp", "Dummy database implementation");
+        "h,help", "Show help")("d,dummy", "Dummy database implementation");
 
     const auto result = opts.parse(argc, argv);
 
@@ -21,11 +24,19 @@ int main(int argc, const char **argv) {
 
     setupLogger(result.count("v") != 0);
 
-    mlb::data::DatabaseImpl db{result.count("d") != 0};
     mlb_server_debug("Using fake data? {}", result.count("d") != 0);
+    const bool dummy = result.count("d") != 0;
 
     mlb::server::Server s;
-    s.setDatabaseImpl(db);
+    mlb::data::DatabaseImplDummy dummyImpl{baseDummyDir};
+    mlb::data::DatabaseImpl db;
+
+    if (dummy) {
+        s.setDatabaseImpl(dummyImpl);
+    } else {
+        s.setDatabaseImpl(db);
+    }
+
     s.start();
 
     while (not s.isRunning()) {

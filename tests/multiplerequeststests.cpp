@@ -62,7 +62,7 @@ TEST_F(MutlipleRequestsTest, two_requests) {
         return articles;
     }));
     auto firstReq = threadedGet("http://localhost:9080/mlb/player");
-    auto secondReq = threadedGet("http://localhost:9080/mlb/article");
+    auto secondReq = threadedGet("http://localhost:9080/mlb/articleHeaders");
 
     EXPECT_EQ(std::get<0>(firstReq.get()), 200);
     EXPECT_EQ(std::get<0>(secondReq.get()), 200);
