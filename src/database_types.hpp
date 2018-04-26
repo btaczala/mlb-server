@@ -33,6 +33,13 @@ struct User {
     std::string lastName;
 };
 
+struct Comment {
+    id_t id;
+    User user;
+    std::string text;
+    DateTime date;
+};
+
 struct ArticleHeader {
     id_t id;
     std::string title;
@@ -41,13 +48,7 @@ struct ArticleHeader {
     std::uint32_t numberOfComments;
     std::string author;
     Picture picture;
-};
-
-struct Comment {
-    id_t id;
-    User user;
-    std::string text;
-    DateTime date;
+    std::vector<Comment> comments;
 };
 
 struct Game {

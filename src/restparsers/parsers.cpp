@@ -52,6 +52,7 @@ void ArticleHeadersParser::parse(web::http::http_request request,
         }
     }
 
+    mlb_server_debug("Sending response {}", tmpArts.size());
     const auto resp = ResponseConverter::serialize(tmpArts);
     mlb_server_debug("Response is {}", resp);
     request.reply(status_codes::OK, resp);
