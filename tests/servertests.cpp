@@ -91,14 +91,15 @@ TEST_F(ServerTest, get_article_list) {
 }
 
 TEST_F(ServerTest, get_article) {
-    mlb::data::Article art{10, "", {}};
+    mlb::data::ArticleHeader art 
+        {0, "Title", "", "2018-12-10", 10, "Lady Gaga"};
     EXPECT_CALL(db, article(10)).WillOnce(::testing::Return(art));
     const auto ret = get("http://localhost:9080/mlb/article/10");
     EXPECT_EQ(std::get<0>(ret), 200);
 }
 
 TEST_F(ServerTest, get_article_not_found) {
-    std::optional<mlb::data::Article> opt;
+    std::optional<mlb::data::ArticleHeader> opt;
     EXPECT_CALL(db, article(10)).WillOnce(::testing::Return(opt));
     const auto ret = get("http://localhost:9080/mlb/article/10");
     EXPECT_EQ(std::get<0>(ret), 404);

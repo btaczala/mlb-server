@@ -50,12 +50,6 @@ struct Comment {
     DateTime date;
 };
 
-struct Article {
-    ArticleHeader header;
-    std::vector<Comment> comments;
-    Picture mainPicture;
-};
-
 struct Game {
     std::string datetime;
     Team host;

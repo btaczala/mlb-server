@@ -47,9 +47,17 @@ ArticleHeaders DatabaseImplDummy::articleHeaders() const {
         const auto json = __fakeData::readJson(filepath);
 
         mlb_server_debug("Reading article from path {}", filepath.string());
+
+        std::string text = json["text"];
+
+        if (text.size() > 260) {
+            text.erase(260, std::string::npos);
+            text += "[...]";
+        }
+
         return ArticleHeader{json["id"],
                              json["title"],
-                             json["text"],
+                             text,
                              json["postedDate"],
                              json["numberOfComments"],
                              json["author"],
@@ -65,6 +73,28 @@ ArticleHeaders DatabaseImplDummy::articleHeaders() const {
                        return readArticle(filepath);
                    });
     return arts;
+}
+
+std::optional<ArticleHeader>
+DatabaseImplDummy::article(std::uint32_t id) const {
+    const fs::path articlePath =
+        fs::path{_rootDir} / fs::path{"articles"} /
+        fs::path{std::to_string(id) + std::string{".json"}};
+
+    mlb_server_debug("Reading file {}", articlePath.string());
+
+    if (fs::exists(articlePath)) {
+        const auto json = __fakeData::readJson(articlePath);
+        return ArticleHeader{json["id"],
+                             json["title"],
+                             json["text"],
+                             json["postedDate"],
+                             json["numberOfComments"],
+                             json["author"],
+                             json["picture"].get<std::string>()};
+    }
+
+    return std::nullopt;
 }
 
 } // namespace data

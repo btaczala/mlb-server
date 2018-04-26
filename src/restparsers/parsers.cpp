@@ -19,9 +19,13 @@ void ArticleParser::parse(web::http::http_request request,
     } else if (paths.size() == 3) {
         const auto artId = std::stoi(paths.at(2));
         const auto art = db.article(artId);
+        mlb_server_debug("Requesting article {}", artId);
 
         if (art) {
-            request.reply(status_codes::OK);
+            const auto json = ResponseConverter::serialize(art.value());
+
+            mlb_server_debug("Sending json = {}", json);
+            request.reply(status_codes::OK, json);
         } else {
             request.reply(status_codes::NotFound);
         }

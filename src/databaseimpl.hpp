@@ -9,7 +9,7 @@ struct DatabaseImpl {
 
     Players allPlayers() const { return Players{}; }
     ArticleHeaders articleHeaders() const;
-    std::optional<Article> article(std::uint32_t id) const { return Article{}; }
+    std::optional<ArticleHeader> article(std::uint32_t id) const { return ArticleHeader{}; }
     Schedule schedule(const std::string &) const { return Schedule{}; }
     std::optional<Schedule> schedule(const std::string &,
                                      std::uint16_t week) const {

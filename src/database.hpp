@@ -30,7 +30,7 @@ struct Database {
     Players allPlayers() const { return _getAllPlayers(); }
     ArticleHeaders articleHeaders() const { return _articleHeaders(); }
 
-    std::optional<Article> article(std::uint32_t id) const {
+    std::optional<ArticleHeader> article(std::uint32_t id) const {
         return _article(id);
     }
 
@@ -50,7 +50,7 @@ struct Database {
   private:
     std::function<Players()> _getAllPlayers;
     std::function<ArticleHeaders()> _articleHeaders;
-    std::function<std::optional<Article>(std::uint32_t)> _article;
+    std::function<std::optional<ArticleHeader>(std::uint32_t)> _article;
     std::function<Schedule(const std::string &)> _schedule;
     std::function<std::optional<Schedule>(const std::string &, std::uint16_t)>
         _scheduleByWeek;

@@ -45,13 +45,6 @@ inline auto registerMembers<mlb::data::Comment>() {
 }
 
 template <>
-inline auto registerMembers<mlb::data::Article>() {
-    return members(member("header", &mlb::data::Article::header),
-                   member("comments", &mlb::data::Article::comments),
-                   member("picture", &mlb::data::Article::mainPicture));
-}
-
-template <>
 inline auto registerMembers<mlb::data::Team>() {
     return members(member("name", &mlb::data::Team::name),
                    member("id", &mlb::data::Team::id));

@@ -34,7 +34,8 @@ int main(int argc, const char **argv) {
     if (dummy) {
         s.setDatabaseImpl(dummyImpl);
     } else {
-        s.setDatabaseImpl(db);
+        throw std::runtime_error("No impl yet");
+        // s.setDatabaseImpl(db);
     }
 
     s.start();

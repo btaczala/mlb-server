@@ -13,7 +13,7 @@ struct DatabaseImplDummy {
 
     Players allPlayers() const;
     ArticleHeaders articleHeaders() const;
-    std::optional<Article> article(std::uint32_t id) const { return Article{}; }
+    std::optional<ArticleHeader> article(std::uint32_t id) const;
     Schedule schedule(const std::string &) const { return Schedule{}; }
     std::optional<Schedule> schedule(const std::string &,
                                      std::uint16_t week) const {
