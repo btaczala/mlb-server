@@ -13,25 +13,22 @@ void ArticleParser::parse(web::http::http_request request,
                           const mlb::data::Database &db) {
     const auto paths = uri::split_path(request.request_uri().to_string());
 
-    if (paths.size() == 2) {
-        request.reply(status_codes::BadRequest);
-        return;
-    } else if (paths.size() == 3) {
-        const auto artId = std::stoi(paths.at(2));
-        const auto art = db.article(artId);
-        mlb_server_debug("Requesting article {}", artId);
-
-        if (art) {
-            const auto json = ResponseConverter::serialize(art.value());
-
-            mlb_server_debug("Sending json = {}", json);
-            request.reply(status_codes::OK, json);
-        } else {
-            request.reply(status_codes::NotFound);
-        }
+    if (paths.size() != 3) {
+        request.reply(web::http::status_codes::NotAcceptable);
     }
 
-    request.reply(web::http::status_codes::NotAcceptable);
+    const auto artId = std::stoi(paths.at(2));
+    const auto art = db.article(artId);
+    mlb_server_debug("Requesting article {}", artId);
+
+    if (art) {
+        const auto json = ResponseConverter::serialize(art.value());
+
+        mlb_server_debug("Sending json = {}", json);
+        request.reply(status_codes::OK, json);
+    } else {
+        request.reply(status_codes::NotFound);
+    }
 }
 
 void ArticleHeadersParser::parse(web::http::http_request request,

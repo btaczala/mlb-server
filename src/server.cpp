@@ -48,17 +48,23 @@ Server::Server()
             return;
         }
 
-        mlb_server_debug("Requested info {}", paths.at(1));
+        try {
+            mlb_server_debug("Requested info {}", paths.at(1));
 
-        const auto it = d->requestsMap.find(paths.at(1));
-        if (it == d->requestsMap.end()) {
-            mlb_server_warn("Unable to find uri {}",
-                            request.request_uri().to_string());
-            request.reply(web::http::status_codes::NotAcceptable);
-            return;
+            const auto it = d->requestsMap.find(paths.at(1));
+            if (it == d->requestsMap.end()) {
+                mlb_server_warn("Unable to find uri {}",
+                                request.request_uri().to_string());
+                request.reply(web::http::status_codes::NotAcceptable);
+                return;
+            }
+
+            it->second(request);
+        } catch (const std::exception &ex) {
+            mlb_server_warn("Exception while handling uri {}, ex.what() = {}",
+                            request.to_string(), ex.what());
+            throw;
         }
-
-        it->second(request);
     };
 
     registerParsers<restParsers::ArticleParser, restParsers::Schedule,
