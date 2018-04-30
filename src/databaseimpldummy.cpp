@@ -97,5 +97,11 @@ DatabaseImplDummy::article(std::uint32_t id) const {
     return std::nullopt;
 }
 
+std::optional<Standing>
+DatabaseImplDummy::standing(const std::string &ln) const {
+    Standing fStd{ln};
+    return fStd;
+}
+
 } // namespace data
 } // namespace mlb

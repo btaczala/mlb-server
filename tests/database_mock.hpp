@@ -11,6 +11,7 @@ struct DatabaseMock {
     MOCK_CONST_METHOD1(article,
                        std::optional<mlb::data::ArticleHeader>(std::uint32_t));
     MOCK_CONST_METHOD1(schedule, mlb::data::Schedule(const std::string &));
+    MOCK_CONST_METHOD1(standing, mlb::data::Standing(const std::string &));
     MOCK_CONST_METHOD2(schedule,
                        std::optional<mlb::data::Schedule>(const std::string &,
                                                           std::uint16_t));

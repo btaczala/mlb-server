@@ -97,6 +97,22 @@ struct GameReport {
     std::vector<PlayerStatline> guestStats;
 };
 
+struct Standing {
+    std::string leagueName;
+
+    struct StandingEntry {
+        Team team;
+        std::uint32_t games;
+        std::uint32_t wins;
+        std::uint32_t losts;
+        std::string bilans;
+        std::int32_t diff;
+        std::uint32_t points;
+    };
+
+    std::vector<StandingEntry> teams;
+};
+
 using Players = std::vector<PlayerShortInfo>;
 using ArticleHeaders = std::vector<ArticleHeader>;
 using Weeks = std::vector<Week>;

@@ -25,6 +25,7 @@ struct Database {
         };
 
         _gameReport = [&db](id_t id) { return db.gameReport(id); };
+        _standing = [&db](const std::string &ln) { return db.standing(ln); };
     }
 
     Players allPlayers() const { return _getAllPlayers(); }
@@ -47,6 +48,8 @@ struct Database {
         return _gameReport(id);
     }
 
+    std::optional<Standing> standings(const std::string &leagueName) const;
+
   private:
     std::function<Players()> _getAllPlayers;
     std::function<ArticleHeaders()> _articleHeaders;
@@ -55,6 +58,7 @@ struct Database {
     std::function<std::optional<Schedule>(const std::string &, std::uint16_t)>
         _scheduleByWeek;
     std::function<std::optional<GameReport>(id_t)> _gameReport;
+    std::function<std::optional<Standing>(const std::string &)> _standing;
 };
 } // namespace data
 } // namespace mlb
