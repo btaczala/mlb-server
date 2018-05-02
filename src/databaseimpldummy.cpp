@@ -1,6 +1,7 @@
 #include "databaseimpldummy.hpp"
 #include <experimental/filesystem>
 #include <fstream>
+#include <random>
 
 #include <nlohmann/json.hpp>
 
@@ -9,7 +10,8 @@
 namespace fs = std::experimental::filesystem;
 
 namespace __fakeData {
-const mlb::data::Players allPlayers{{"", "", 10}};
+const mlb::data::Players allPlayers{{"Bartek", "Taczała ", 0},
+                                    {"Nie", "Tak", 1}};
 
 const mlb::data::ArticleHeaders allHeaders{{0, "This is a title",
                                             "This is a simple text",
@@ -26,6 +28,22 @@ std::string readfile(const fs::path &path) {
 nlohmann::json readJson(const fs::path &path) {
     return nlohmann::json::parse(readfile(path));
 }
+template <typename T>
+auto randomValue(T &&container, int number = 1) {
+    using Val = typename std::decay_t<T>::value_type;
+    std::vector<Val> vv;
+    std::sample(std::begin(container), std::end(container),
+                std::back_inserter(vv), number,
+                std::mt19937{std::random_device{}()});
+
+    return vv.at(0);
+}
+using namespace mlb::data;
+const std::vector<Team> teams{Team{"RIM", 0}, Team{"FRASSATI", 1},
+                              Team{"OPEN FINANCE", 2}};
+
+const std::vector<std::string> scores{"44:33", "22:11", "56:70", ""};
+const std::vector<std::string> dates{"2018-10-15"};
 
 } // namespace __fakeData
 
@@ -95,6 +113,53 @@ DatabaseImplDummy::article(std::uint32_t id) const {
     }
 
     return std::nullopt;
+}
+
+Schedule DatabaseImplDummy::schedule(const std::string &leagueName) const {
+
+    static std::map<std::string, Schedule> fakeData;
+
+    if (fakeData.empty()) {
+        using namespace __fakeData;
+
+        const std::vector<Game> games{
+            // clang-format off
+            Game{randomValue(dates), randomValue(teams), randomValue(teams),randomValue(scores)},
+            Game{randomValue(dates), randomValue(teams), randomValue(teams),randomValue(scores)},
+            Game{randomValue(dates), randomValue(teams), randomValue(teams),randomValue(scores)},
+            Game{randomValue(dates), randomValue(teams), randomValue(teams),randomValue(scores)},
+            Game{randomValue(dates), randomValue(teams), randomValue(teams),randomValue(scores)},
+        };
+        // clang-format off
+        Week first { 1, games }, second {2, games},third {3, games };
+        Weeks wks {first, second, third};
+
+        Schedule major {wks }, basic {wks}, pretendent {wks};
+
+        fakeData["major"] = major;
+        fakeData["basic"] = basic;
+        fakeData["pretendent"] = pretendent;
+    }
+
+    return fakeData[leagueName];
+}
+
+std::optional<GameReport> DatabaseImplDummy::gameReport( id_t id) const 
+{
+    using namespace __fakeData;
+    std::vector<std::string> scores;
+
+    auto randomStatline = [] () -> GameReport::PlayerStatline{
+        return GameReport::PlayerStatline {randomValue(__fakeData::allPlayers) };
+    };
+
+    std::vector<GameReport::PlayerStatline> hosts, guests;
+
+    std::generate_n(std::back_inserter(hosts), 10, randomStatline);
+    std::generate_n(std::back_inserter(guests), 10, randomStatline);
+
+    GameReport rep { id, randomValue(teams), randomValue(teams), {"",""}, hosts, guests };
+    return rep;
 }
 
 } // namespace data

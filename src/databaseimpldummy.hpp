@@ -14,13 +14,13 @@ struct DatabaseImplDummy {
     Players allPlayers() const;
     ArticleHeaders articleHeaders() const;
     std::optional<ArticleHeader> article(std::uint32_t id) const;
-    Schedule schedule(const std::string &) const { return Schedule{}; }
+    Schedule schedule(const std::string &) const;
     std::optional<Schedule> schedule(const std::string &,
                                      std::uint16_t week) const {
         return Schedule{};
     }
 
-    std::optional<GameReport> gameReport(id_t) const { return GameReport{}; }
+    std::optional<GameReport> gameReport(id_t) const;
 
   private:
     const std::string _rootDir;

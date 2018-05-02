@@ -52,9 +52,11 @@ inline auto registerMembers<mlb::data::Team>() {
 
 template <>
 inline auto registerMembers<mlb::data::Game>() {
-    return members(member("datetime", &mlb::data::Game::datetime),
+    return members(member("id", &mlb::data::Game::id),
+                   member("datetime", &mlb::data::Game::datetime),
                    member("host", &mlb::data::Game::host),
                    member("guest", &mlb::data::Game::guest),
+
                    member("score", &mlb::data::Game::score));
 }
 
@@ -72,7 +74,7 @@ inline auto registerMembers<mlb::data::Schedule>() {
 template <>
 inline auto registerMembers<mlb::data::GameReport::PlayerStatline>() {
     return members(
-        member("id", &mlb::data::GameReport::PlayerStatline::id),
+        member("player", &mlb::data::GameReport::PlayerStatline::player),
         member("points", &mlb::data::GameReport::PlayerStatline::points),
         member("fgm", &mlb::data::GameReport::PlayerStatline::fga),
         member("fga", &mlb::data::GameReport::PlayerStatline::fga),

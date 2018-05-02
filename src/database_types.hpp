@@ -56,6 +56,7 @@ struct Game {
     Team host;
     Team guest;
     std::string score;
+    id_t id;
 };
 
 struct Week {
@@ -70,7 +71,7 @@ struct GameReport {
     std::vector<std::string> scores;
 
     struct PlayerStatline {
-        PlayerShortInfo id;
+        PlayerShortInfo player;
         std::uint16_t points;
         // 2 points
         std::uint16_t fgm;

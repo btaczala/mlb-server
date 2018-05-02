@@ -39,6 +39,7 @@ Server::Server()
     : d(std::make_unique<ServerImpl>((buildUri("localhost", 9080)))) {
     auto handle_get = [this](web::http::http_request request) {
         mlb_server_trace("HTTP request {}", request.to_string());
+        mlb_server_debug("Client connected {}", request.remote_address());
 
         const auto paths =
             web::http::uri::split_path(request.request_uri().to_string());

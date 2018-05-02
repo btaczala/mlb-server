@@ -70,7 +70,7 @@ struct ServerTest : public ServerTestNoDatabase {
 
     void TearDown() override { ServerTestNoDatabase::TearDown(); }
 
-    DatabaseMock db;
+    ::testing::StrictMock<DatabaseMock> db;
 };
 
 TEST_F(ServerTest, get_all_players) {
@@ -91,8 +91,7 @@ TEST_F(ServerTest, get_article_list) {
 }
 
 TEST_F(ServerTest, get_article) {
-    mlb::data::ArticleHeader art 
-        {0, "Title", "", "2018-12-10", 10, "Lady Gaga"};
+    mlb::data::ArticleHeader art{0, "Title", "", "2018-12-10", 10, "Lady Gaga"};
     EXPECT_CALL(db, article(10)).WillOnce(::testing::Return(art));
     const auto ret = get("http://localhost:9080/mlb/article/10");
     EXPECT_EQ(std::get<0>(ret), 200);
@@ -105,9 +104,24 @@ TEST_F(ServerTest, get_article_not_found) {
     EXPECT_EQ(std::get<0>(ret), 404);
 }
 
-TEST_F(ServerTest, get_schedule_major_not_correct) {
+TEST_F(ServerTest, get_all_schedules) {
+    mlb::data::Game simpleGame{"2018-20-12", mlb::data::Team{"BASKET++", 0},
+                               mlb::data::Team{"ASD", 1}};
+    std::vector<mlb::data::Game> games;
+    {
+        games.push_back(simpleGame);
+        simpleGame.score = "15:10";
+        games.push_back(simpleGame);
+    }
+    mlb::data::Week week{1u, games};
+    mlb::data::Week anotherWeek{2u, games};
+    mlb::data::Weeks weeks{week, anotherWeek};
+    mlb::data::Schedule sched{weeks};
+    EXPECT_CALL(db, schedule("major")).WillOnce(::testing::Return(sched));
+    EXPECT_CALL(db, schedule("pretendent")).WillOnce(::testing::Return(sched));
+    EXPECT_CALL(db, schedule("basic")).WillOnce(::testing::Return(sched));
     const auto ret = get("http://localhost:9080/mlb/schedule/");
-    EXPECT_EQ(std::get<0>(ret), 405);
+    EXPECT_EQ(std::get<0>(ret), 200);
 }
 
 TEST_F(ServerTest, get_schedule_major) {

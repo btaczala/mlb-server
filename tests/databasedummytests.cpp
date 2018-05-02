@@ -10,8 +10,14 @@ struct DatabaseImplDummyTests : public ::testing::Test {
 };
 
 TEST_F(DatabaseImplDummyTests, articles) {
-    ASSERT_EQ(_dummy.articleHeaders().size(), 1);
-    EXPECT_EQ(_dummy.articleHeaders().at(0).id, 15379380);
+    ASSERT_EQ(_dummy.articleHeaders().size(), 3);
+    EXPECT_EQ(_dummy.articleHeaders().at(0).id, 15379383);
+}
+
+TEST_F(DatabaseImplDummyTests, schedule) {
+    EXPECT_NO_THROW(_dummy.schedule("major"));
+    EXPECT_NO_THROW(_dummy.schedule("basic"));
+    EXPECT_NO_THROW(_dummy.schedule("pretendent"));
 }
 
 int main(int argc, char *argv[]) {

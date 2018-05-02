@@ -24,6 +24,25 @@ TEST(JsonConverter, string) {
     EXPECT_EQ(json, "\"This is a test string\"");
 }
 
+TEST(JsonConverter, std_map) {
+    {
+        const std::map<std::string, std::string> testMap{
+            std::make_pair("one", "two")};
+
+        auto js = ResponseConverter::serialize(testMap);
+
+        EXPECT_EQ(js, "{\"one\":\"two\"}");
+    }
+    {
+        const std::map<std::string, std::vector<int>> testMap{
+            std::make_pair("one", std::vector<int>{1, 2, 3})};
+
+        auto js = ResponseConverter::serialize(testMap);
+
+        EXPECT_EQ(js, "{\"one\":[1,2,3]}");
+    }
+}
+
 TEST(JsonConverter, team) {
     mlb::data::Team t1{"Team one", 10};
 

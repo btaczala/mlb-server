@@ -34,6 +34,11 @@ nlohmann::json convert(Value &&v) {
 
         return json;
         // For registered types to metaStuff
+    } else if constexpr (is_map<CleanType>::value) {
+        std::for_each(std::begin(v), std::end(v),
+                      [&json](const typename CleanType::value_type &p) {
+                          json[p.first] = convert(p.second);
+                      });
     } else if constexpr (meta::isRegistered<CleanType>()) {
         meta::doForAllMembers<CleanType>([&v, &json](const auto &member) {
             using MemberT = typename std::decay<
