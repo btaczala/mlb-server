@@ -161,6 +161,11 @@ std::optional<GameReport> DatabaseImplDummy::gameReport( id_t id) const
     GameReport rep { id, randomValue(teams), randomValue(teams), {"",""}, hosts, guests };
     return rep;
 }
+std::optional<Standing>
+DatabaseImplDummy::standing(const std::string &ln) const {
+    Standing fStd{ln};
+    return fStd;
+}
 
 } // namespace data
 } // namespace mlb

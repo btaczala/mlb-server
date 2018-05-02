@@ -108,6 +108,25 @@ void Schedule::parse(web::http::http_request request,
     }
 }
 
+void Standings::parse(web::http::http_request request,
+                      const mlb::data::Database &db) {
+    using namespace web::http;
+    const auto paths =
+        web::http::uri::split_path(request.request_uri().to_string());
+
+    mlb_server_debug("Uri = {}", request.request_uri().to_string());
+
+    if (paths.size() != 2 && paths.size() != 3) {
+        request.reply(status_codes::MethodNotAllowed);
+        return;
+    }
+
+    if (paths.size() == 2) {
+        // get all
+        //
+    }
+}
+
 void Game::parse(web::http::http_request request,
                  const mlb::data::Database &db) {
     const auto paths =

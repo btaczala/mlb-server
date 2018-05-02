@@ -35,6 +35,11 @@ struct Schedule : public Parser<Schedule, typestring_is("schedule")> {
                       const mlb::data::Database &db);
 };
 
+struct Standings : public Parser<Schedule, typestring_is("standings")> {
+    static void parse(web::http::http_request request,
+                      const mlb::data::Database &db);
+};
+
 struct Game : public Parser<Game, typestring_is("gamereport")> {
     static void parse(web::http::http_request request,
                       const mlb::data::Database &db);
