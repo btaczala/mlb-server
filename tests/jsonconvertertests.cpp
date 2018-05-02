@@ -68,10 +68,13 @@ TEST(JsonConverter, one_game) {
     p.host = fakeData::teamA;
     p.guest = fakeData::teamB;
     p.score = "54:10";
+    p.id = 10;
 
     const auto json = ResponseConverter::serialize(p);
-    const auto expected =
-        R"({"datetime":"2012-10-12 15:00","guest":{"id":2,"name":"Team B"},"host":{"id":1,"name":"Team A"},"score":"54:10"})";
+    const auto expected = "{\"datetime\":\"2012-10-12 "
+                          "15:00\",\"guest\":{\"id\":2,\"name\":\"Team "
+                          "B\"},\"host\":{\"id\":1,\"name\":\"Team "
+                          "A\"},\"id\":10,\"score\":\"54:10\"}";
 
     EXPECT_EQ(json, expected);
 }
