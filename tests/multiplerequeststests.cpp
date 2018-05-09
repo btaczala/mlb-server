@@ -12,6 +12,8 @@
 
 #include "database_mock.hpp"
 
+bool bDumpJson = false;
+
 auto threadedGet(const std::string &url) {
     using curlpp::infos::ResponseCode;
 

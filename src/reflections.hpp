@@ -82,6 +82,15 @@ inline auto registerMembers<mlb::data::GameReport::PlayerStatline>() {
         member("tpa", &mlb::data::GameReport::PlayerStatline::tpa),
         member("ftm", &mlb::data::GameReport::PlayerStatline::ftm),
         member("fta", &mlb::data::GameReport::PlayerStatline::fta),
+        member("offensiveRebounds",
+               &mlb::data::GameReport::PlayerStatline::ofensiveRebounds),
+        member("defensiveRebounds",
+               &mlb::data::GameReport::PlayerStatline::defensiveRebounds),
+        member("assists", &mlb::data::GameReport::PlayerStatline::assists),
+        member("steals", &mlb::data::GameReport::PlayerStatline::steals),
+        member("blocks", &mlb::data::GameReport::PlayerStatline::blocks),
+        member("turnovers", &mlb::data::GameReport::PlayerStatline::turnovers),
+        member("fouls", &mlb::data::GameReport::PlayerStatline::fouls),
         member("eval", &mlb::data::GameReport::PlayerStatline::eval));
 }
 

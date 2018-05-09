@@ -4,24 +4,72 @@
 #include "responseconverter.hpp"
 
 #include <cpprest/http_msg.h>
+#include <experimental/filesystem>
+
+extern bool bDumpJson;
+
+template <typename T>
+struct is_optional {
+    constexpr static const bool value = false;
+};
+
+template <typename T>
+struct is_optional<std::optional<T>> {
+    constexpr static const bool value = true;
+};
+
+namespace {
+std::string random_string(size_t length) {
+    auto randchar = []() -> char {
+        const char charset[] = "0123456789"
+                               "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                               "abcdefghijklmnopqrstuvwxyz";
+        const size_t max_index = (sizeof(charset) - 1);
+        return charset[rand() % max_index];
+    };
+    std::string str(length, 0);
+    std::generate_n(str.begin(), length, randchar);
+    return str;
+}
+std::string storeJson(const std::string &jsonData) {
+    namespace fs = std::experimental::filesystem;
+
+    const fs::path jsonDirPath = fs::temp_directory_path() / fs::path{"jsons"};
+
+    if (!fs::exists(jsonDirPath)) {
+        fs::create_directories(jsonDirPath);
+    }
+
+    const fs::path tmpDirPath =
+        jsonDirPath / fs::path{random_string(10) + ".json"};
+
+    std::ofstream file{tmpDirPath.c_str()};
+    file << jsonData;
+
+    return tmpDirPath.string();
+}
+} // namespace
 
 namespace mlb {
 namespace restParsers {
+
 using namespace web::http;
 
 template <typename T>
-void ok(web::http::http_request &request, const std::optional<T> &t) {
-    const auto json = ResponseConverter::serialize(t.value());
-    mlb_server_debug("OK, sending response {}",
-                     nlohmann::json::parse(json).dump(2));
-    request.reply(status_codes::OK, json);
-}
-
-template <typename T>
 void ok(web::http::http_request &request, T &&t) {
-    const auto json = ResponseConverter::serialize(std::forward<T>(t));
-    mlb_server_debug("OK, sending response {}",
-                     nlohmann::json::parse(json).dump(2));
+
+    using RealType = std::decay_t<T>;
+    std::string json;
+    if constexpr (is_optional<RealType>::value) {
+        json = ResponseConverter::serialize(t.value());
+    } else {
+        json = ResponseConverter::serialize(std::forward<T>(t));
+    }
+
+    if (bDumpJson) {
+        mlb_server_debug("OK, sending response , json saved under {}",
+                         storeJson(json));
+    }
     request.reply(status_codes::OK, json);
 }
 

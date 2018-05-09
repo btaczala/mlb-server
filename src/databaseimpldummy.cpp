@@ -10,8 +10,12 @@
 namespace fs = std::experimental::filesystem;
 
 namespace __fakeData {
-const mlb::data::Players allPlayers{{"Bartek", "Taczała ", 0},
-                                    {"Nie", "Tak", 1}};
+const mlb::data::Players allPlayers{// clang-format off
+    {"Bartek", "Taczała ", 0},
+    {"Michael", "Jordan", 0},
+    {"Scottie", "Pippen", 0},
+    {"Kevin", "Love", 0}};
+// clang-format on
 
 const mlb::data::ArticleHeaders allHeaders{{0, "This is a title",
                                             "This is a simple text",
@@ -130,11 +134,11 @@ Schedule DatabaseImplDummy::schedule(const std::string &leagueName) const {
             Game{randomValue(dates), randomValue(teams), randomValue(teams),randomValue(scores)},
             Game{randomValue(dates), randomValue(teams), randomValue(teams),randomValue(scores)},
         };
-        // clang-format off
-        Week first { 1, games }, second {2, games},third {3, games };
-        Weeks wks {first, second, third};
+        // clang-format on
+        Week first{1, games}, second{2, games}, third{3, games};
+        Weeks wks{first, second, third};
 
-        Schedule major {wks }, basic {wks}, pretendent {wks};
+        Schedule major{wks}, basic{wks}, pretendent{wks};
 
         fakeData["major"] = major;
         fakeData["basic"] = basic;
@@ -144,21 +148,41 @@ Schedule DatabaseImplDummy::schedule(const std::string &leagueName) const {
     return fakeData[leagueName];
 }
 
-std::optional<GameReport> DatabaseImplDummy::gameReport( id_t id) const 
-{
+std::optional<GameReport> DatabaseImplDummy::gameReport(id_t id) const {
     using namespace __fakeData;
     std::vector<std::string> scores;
 
-    auto randomStatline = [] () -> GameReport::PlayerStatline{
-        return GameReport::PlayerStatline {randomValue(__fakeData::allPlayers) };
+    auto randomStatline = []() -> GameReport::PlayerStatline {
+#pragma GCC diagnostic ignored "-Wc++11-narrowing"
+        return GameReport::PlayerStatline{
+            randomValue(__fakeData::allPlayers),
+            std::rand() % 60,
+            std::rand() % 50,
+            std::rand() % 50,
+            std::rand() % 30,
+            std::rand() % 30,
+            std::rand() % 30,
+            std::rand() % 30,
+            std::rand() % 30,
+            std::rand() % 30,
+            std::rand() % 30,
+            std::rand() % 10,
+            std::rand() % 10,
+            std::rand() % 10,
+            std::rand() % 5,
+            std::rand() % 30,
+        };
     };
 
     std::vector<GameReport::PlayerStatline> hosts, guests;
 
-    std::generate_n(std::back_inserter(hosts), 10, randomStatline);
-    std::generate_n(std::back_inserter(guests), 10, randomStatline);
+    std::generate_n(std::back_inserter(hosts), 5 + std::rand() % 7,
+                    randomStatline);
+    std::generate_n(std::back_inserter(guests), 5 + std::rand() % 7,
+                    randomStatline);
 
-    GameReport rep { id, randomValue(teams), randomValue(teams), {"",""}, hosts, guests };
+    GameReport rep{
+        id, randomValue(teams), randomValue(teams), {"", ""}, hosts, guests};
     return rep;
 }
 std::optional<Standing>

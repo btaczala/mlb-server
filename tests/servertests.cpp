@@ -13,6 +13,8 @@
 
 #include "database_mock.hpp"
 
+bool bDumpJson = false;
+
 auto get(const std::string &url) {
     using curlpp::infos::ResponseCode;
     curlpp::Easy request;
