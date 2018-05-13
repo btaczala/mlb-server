@@ -12,10 +12,11 @@ namespace mlb {
 namespace server {
 
 struct Version {
-const std::string version = PROJECT_VERSION;
+const std::string version { PROJECT_VERSION };
 const std::string major = PROJECT_VERSION_MAJOR;
 const std::string minor = PROJECT_VERSION_MINOR;
 const std::string release = PROJECT_VERSION_PATCH;
+
 }; 
 } // namespace server
 } // namespace mlb

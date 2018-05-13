@@ -3,6 +3,7 @@
 #include "databaseimpldummy.hpp"
 #include "log.h"
 #include "server.hpp"
+#include "version.hpp"
 
 #include <cxxopts.hpp>
 
@@ -16,7 +17,7 @@ int main(int argc, const char **argv) {
 
     opts.add_options()("v,verbose", "Enable verbose mode")(
         "h,help", "Show help")("d,dummy", "Dummy database implementation")(
-        "j,json", "Dump json to files");
+        "j,json", "Dump json to files")("version", "show version");
 
     const auto result = opts.parse(argc, argv);
 
@@ -26,11 +27,16 @@ int main(int argc, const char **argv) {
     }
 
     setupLogger(result.count("v") != 0);
-
     bDumpJson = result.count("j") != 0;
 
     mlb_server_debug("Using fake data? {}", result.count("d") != 0);
     const bool dummy = result.count("d") != 0;
+
+    if (result.count("version")) {
+        mlb::server::Version v;
+        std::cout << v.version << std::endl;
+        return EXIT_SUCCESS;
+    }
 
     mlb::server::Server s;
     mlb::data::DatabaseImplDummy dummyImpl{baseDummyDir};

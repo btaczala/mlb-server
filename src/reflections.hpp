@@ -106,8 +106,8 @@ inline auto registerMembers<mlb::data::GameReport>() {
 template <>
 inline auto registerMembers<mlb::server::Version>() {
     return members(member("major", &mlb::server::Version::major),
-                   member("minor", &mlb::server::Version::major),
-                   member("release", &mlb::server::Version::major));
+                   member("minor", &mlb::server::Version::minor),
+                   member("release", &mlb::server::Version::release));
 }
 } // namespace meta
 

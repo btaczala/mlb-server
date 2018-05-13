@@ -77,8 +77,9 @@ Server::Server()
 
     d->requestsMap["version"] = [this](web::http::http_request req) {
         const mlb::server::Version v;
-        const auto response = ResponseConverter::serialize(v);
-        req.reply(web::http::status_codes::OK, response);
+        const auto resp = ResponseConverter::serialize(v);
+        mlb_server_debug("Version {}", resp);
+        req.reply(web::http::status_codes::OK, resp);
     };
 
     d->requestsMap["ping"] = [](web::http::http_request req) {
