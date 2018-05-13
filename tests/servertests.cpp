@@ -187,7 +187,6 @@ TEST_F(ServerTest, gallery_by_id_exists) {
 
     mlb_server_debug("Resp {}", std::get<1>(ret));
     auto json = nlohmann::json::parse(std::get<1>(ret));
-
     EXPECT_TRUE(json.is_object());
 }
 

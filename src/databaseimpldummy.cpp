@@ -21,6 +21,26 @@ const mlb::data::ArticleHeaders allHeaders{{0, "This is a title",
                                             "This is a simple text",
                                             "2018-10-15", 0, "Bartek", ""}};
 
+const std::vector<mlb::data::Picture> pictures{
+    mlb::data::Picture{"http://www.miastobasketu.com//images/galeria_albumy/"
+                       "photo_3915747_2018.04.21 MLB (18).jpg"},
+    mlb::data::Picture{"http://www.miastobasketu.com//images/galeria_albumy/"
+                       "photo_2638766_2018.04.21 MLB (15).jpg"},
+    mlb::data::Picture{"http://www.miastobasketu.com//images/galeria_albumy/"
+                       "photo_5407751_2018.04.21 MLB (8).jpg"},
+    mlb::data::Picture{"http://www.miastobasketu.com//images/galeria_albumy/"
+                       "photo_6902873_2018.04.21 MLB (10).jpg"},
+    mlb::data::Picture{"http://www.miastobasketu.com//images/galeria_albumy/"
+                       "photo_4157370_2018.04.21 MLB (9).jpg"},
+    mlb::data::Picture{"http://www.miastobasketu.com//images/galeria_albumy/"
+                       "photo_3158671_2018.04.21 MLB (4).jpg"},
+    mlb::data::Picture{"http://www.miastobasketu.com//images/galeria_albumy/"
+                       "photo_7034131_2018.04.21 MLB (11).jpg"},
+    mlb::data::Picture{"http://www.miastobasketu.com//images/galeria_albumy/"
+                       "photo_7943927_2018.04.21 MLB (7).jpg"},
+    mlb::data::Picture{"http://www.miastobasketu.com//images/galeria_albumy/"
+                       "photo_4642700_2018.04.21 MLB (12).jpg"}};
+
 std::string readfile(const fs::path &path) {
     std::ifstream fileToRead{path.c_str()};
     fileToRead >> std::noskipws;
@@ -191,9 +211,17 @@ DatabaseImplDummy::standing(const std::string &ln) const {
     return fStd;
 }
 
-GalleryList DatabaseImplDummy::galleryList() const { return GalleryList{}; }
+GalleryList DatabaseImplDummy::galleryList() const {
+    GalleryList fake;
+    std::generate_n(std::back_inserter(fake), 10,
+                    [this]() { return gallery(std::rand() % 100).value().ge; });
+    return fake;
+}
+
 std::optional<Gallery> DatabaseImplDummy::gallery(id_t id) const {
-    return Gallery{};
+    return Gallery{id, __fakeData::randomValue(__fakeData::pictures),
+                   __fakeData::randomValue(__fakeData::allHeaders).title,
+                   "2018-05"};
 }
 
 } // namespace data

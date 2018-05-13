@@ -215,10 +215,11 @@ void Gallery::parse(web::http::http_request request,
 
         const auto gallery = db.gallery(std::stoi(paths.at(2)));
 
-        if (gallery)
+        if (gallery) {
             ok(request, gallery.value());
-        else
+        } else {
             request.reply(web::http::status_codes::NotFound);
+        }
     }
 }
 } // namespace restParsers
