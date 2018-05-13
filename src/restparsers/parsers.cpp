@@ -203,5 +203,23 @@ void Player::parse(web::http::http_request request,
     mlb_server_info("Sending response {}", response);
     request.reply(web::http::status_codes::OK, response);
 }
+
+void Gallery::parse(web::http::http_request request,
+                    const mlb::data::Database &db) {
+    mlb_server_debug("Get gallery info");
+    const auto paths = uri::split_path(request.request_uri().to_string());
+
+    if (paths.size() == 2) {
+        ok(request, db.galleryList());
+    } else if (paths.size() == 3) {
+
+        const auto gallery = db.gallery(std::stoi(paths.at(2)));
+
+        if (gallery)
+            ok(request, gallery.value());
+        else
+            request.reply(web::http::status_codes::NotFound);
+    }
+}
 } // namespace restParsers
 } // namespace mlb

@@ -165,6 +165,32 @@ TEST_F(ServerTest, get_version) {
     EXPECT_TRUE(json.is_object());
 }
 
+TEST_F(ServerTest, gallery_list) {
+    mlb::data::GalleryList gl;
+    gl.push_back(mlb::data::GalleryEntry{101});
+    EXPECT_CALL(db, galleryList()).WillOnce(::testing::Return(gl));
+    const auto ret = get("http://localhost:9080/mlb/gallery");
+    EXPECT_EQ(std::get<0>(ret), 200);
+
+    mlb_server_debug("Resp {}", std::get<1>(ret));
+    auto json = nlohmann::json::parse(std::get<1>(ret));
+
+    EXPECT_TRUE(json.is_array());
+    EXPECT_EQ(json[0]["id"], 101);
+}
+
+TEST_F(ServerTest, gallery_by_id_exists) {
+    mlb::data::Gallery gl;
+    EXPECT_CALL(db, gallery(::testing::_)).WillOnce(::testing::Return(gl));
+    const auto ret = get("http://localhost:9080/mlb/gallery/101");
+    EXPECT_EQ(std::get<0>(ret), 200);
+
+    mlb_server_debug("Resp {}", std::get<1>(ret));
+    auto json = nlohmann::json::parse(std::get<1>(ret));
+
+    EXPECT_TRUE(json.is_object());
+}
+
 int main(int argc, char *argv[]) {
     setupLogger();
     ::testing::InitGoogleTest(&argc, argv);

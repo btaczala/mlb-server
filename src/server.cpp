@@ -70,8 +70,8 @@ Server::Server()
 
     registerParsers<restParsers::ArticleParser, restParsers::Schedule,
                     restParsers::Game, restParsers::Player,
-                    restParsers::ArticleHeadersParser>(d->requestsMap,
-                                                       database);
+                    restParsers::ArticleHeadersParser, restParsers::Gallery>(
+        d->requestsMap, database);
 
     d->_listener.support(web::http::methods::GET, handle_get);
 

@@ -50,6 +50,11 @@ struct Player : public Parser<Game, typestring_is("player")> {
                       const mlb::data::Database &db);
 };
 
+struct Gallery : public Parser<Game, typestring_is("gallery")> {
+    static void parse(web::http::http_request request,
+                      const mlb::data::Database &db);
+};
+
 } // namespace restParsers
 } // namespace mlb
 

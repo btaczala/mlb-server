@@ -9,6 +9,7 @@ struct DatabaseImpl {
 
     Players allPlayers() const { return Players{}; }
     ArticleHeaders articleHeaders() const;
+    GalleryList galleryList() const { return GalleryList{}; }
     std::optional<ArticleHeader> article(std::uint32_t id) const {
         return ArticleHeader{};
     }
@@ -22,6 +23,8 @@ struct DatabaseImpl {
     std::optional<Standing> standing(const std::string &ln) const {
         return Standing{};
     }
+
+    std::optional<Gallery> gallery(id_t id) const { return Gallery{}; }
 };
 } // namespace data
 } // namespace mlb

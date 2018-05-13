@@ -21,7 +21,10 @@ struct DatabaseImplDummy {
     }
 
     std::optional<GameReport> gameReport(id_t) const;
-    std::optional<Standing> standing(const std::string& ln) const;
+    std::optional<Standing> standing(const std::string &ln) const;
+
+    GalleryList galleryList() const;
+    std::optional<Gallery> gallery(id_t id) const;
 
   private:
     const std::string _rootDir;

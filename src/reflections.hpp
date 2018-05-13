@@ -109,6 +109,18 @@ inline auto registerMembers<mlb::server::Version>() {
                    member("minor", &mlb::server::Version::minor),
                    member("release", &mlb::server::Version::release));
 }
+template <>
+inline auto registerMembers<mlb::data::GalleryEntry>() {
+    return members(member("id", &mlb::data::GalleryEntry::id),
+                   member("picture", &mlb::data::GalleryEntry::mainPicture),
+                   member("title", &mlb::data::GalleryEntry::title),
+                   member("date", &mlb::data::GalleryEntry::date));
+}
+template <>
+inline auto registerMembers<mlb::data::Gallery>() {
+    return members(member("galleryDetails", &mlb::data::Gallery::ge),
+                   member("pictures", &mlb::data::Gallery::pictures));
+}
 } // namespace meta
 
 #endif /* end of include guard: REFLECTION_HPP_3N0JQKEA */

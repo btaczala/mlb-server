@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
 cmake_policy(SET CMP0048 NEW)
-project(rdm-server VERSION 0.0.1)
+project(rdm-server VERSION 0.0.2)
 
 find_program(IWYU_PATH NAMES include-what-you-use iwyu)
 message(STATUS ${IWYU_PATH})

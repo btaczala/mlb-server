@@ -191,5 +191,10 @@ DatabaseImplDummy::standing(const std::string &ln) const {
     return fStd;
 }
 
+GalleryList DatabaseImplDummy::galleryList() const { return GalleryList{}; }
+std::optional<Gallery> DatabaseImplDummy::gallery(id_t id) const {
+    return Gallery{};
+}
+
 } // namespace data
 } // namespace mlb

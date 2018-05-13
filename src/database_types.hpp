@@ -114,9 +114,22 @@ struct Standing {
     std::vector<StandingEntry> teams;
 };
 
+struct GalleryEntry {
+    id_t id;
+    Picture mainPicture;
+    std::string title;
+    std::string date;
+};
+
+struct Gallery {
+    GalleryEntry ge;
+    std::vector<Picture> pictures;
+};
+
 using Players = std::vector<PlayerShortInfo>;
 using ArticleHeaders = std::vector<ArticleHeader>;
 using Weeks = std::vector<Week>;
+using GalleryList = std::vector<GalleryEntry>;
 
 struct Schedule {
     Weeks weeks;

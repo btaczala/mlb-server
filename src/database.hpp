@@ -26,9 +26,12 @@ struct Database {
 
         _gameReport = [&db](id_t id) { return db.gameReport(id); };
         _standing = [&db](const std::string &ln) { return db.standing(ln); };
+        _galleryList = [&db]() { return db.galleryList(); };
+        _galleryById = [&db](id_t id) { return db.gallery(id); };
     }
 
     Players allPlayers() const { return _getAllPlayers(); }
+    GalleryList galleryList() const { return _galleryList(); }
     ArticleHeaders articleHeaders() const { return _articleHeaders(); }
 
     std::optional<ArticleHeader> article(std::uint32_t id) const {
@@ -48,11 +51,14 @@ struct Database {
         return _gameReport(id);
     }
 
+    std::optional<Gallery> gallery(id_t id) const { return _galleryById(id); }
     std::optional<Standing> standings(const std::string &leagueName) const;
 
   private:
     std::function<Players()> _getAllPlayers;
     std::function<ArticleHeaders()> _articleHeaders;
+    std::function<GalleryList()> _galleryList;
+    std::function<std::optional<Gallery>(id_t)> _galleryById;
     std::function<std::optional<ArticleHeader>(std::uint32_t)> _article;
     std::function<Schedule(const std::string &)> _schedule;
     std::function<std::optional<Schedule>(const std::string &, std::uint16_t)>
